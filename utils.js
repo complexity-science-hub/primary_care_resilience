@@ -67,10 +67,27 @@ function KillCircle(circle) {
 }
 
 function UpdateCircle(circle) {
-  var activity = Doc_list[circle.doc_id].activity;
-  var initial = Doc_list[circle.doc_id].initial_patients;
-  circle.setRadius(Activity2Radius(activity));
-  circle.setStyle({fillColor: Acquired2Color(activity, initial)});
+
+    var activity = Doc_list[circle.doc_id].activity;
+    var initial = Doc_list[circle.doc_id].initial_patients;
+
+    var oldradius = circle.options.radius;
+    var radius = Activity2Radius(activity);
+    // console.log("radius: " + oldradius + ", " + radius);
+
+  //circle.setRadius(Activity2Radius(activity));
+    circle.setStyle({fillColor: Acquired2Color(activity, initial)});
+    growCircle(circle, radius, oldradius, 1, 10);
+}
+
+
+function growCircle(circle, maxradius, curradius, increase, tstep) {
+
+    curradius += increase;
+    circle.setRadius(curradius);
+
+    if(curradius <= maxradius)
+        setTimeout(growCircle, tstep, maxradius, curradius, increase, tstep);
 }
 
 function clearLinks() {
@@ -139,7 +156,7 @@ function DrawRedirectedLinks(docid) {
                     [lat_to, lng_to]
                     ],
                     {
-                        color: "green",
+                        color: "lightgreen",
                         weight: line_width,
                         opacity: .7,
                         lineJoin: 'round'

@@ -24,25 +24,14 @@ SpreadPatients = function(docid) {
 
 	var Remainder = {};
 
-	clearLinks();
-	KillCircle(circle_list[docid]); // delete its circle from the map
 
-	// we have to remove the instances of docid from all neighboring docs
-	// and renormalise their weights accordingly
-	for(var i in links) {
-		var id = links[i];
-		var doc2 = Doc_list[id];
-		var l = doc2.links;
-		var ww = doc2.weights;
-		var index = $.inArray(docid,l); // might not work on IE8, who cares?
-		l.splice(index,1);
-		ww.splice(index,1);
-		var sum = 0;
-		for(var j in ww) { sum += ww[j]; }
-		for(var j in ww) { ww[j] /= sum; }
-	} 
+    // we have to remove the instances of docid from all neighboring docs
+    // and renormalise their weights accordingly
+    removeLinkFromDocs(links, docid);
 
-	for(var i=0; i<links.length; i++) {
+
+	//1st wave: move patients to other (linked doctors)
+    for(var i=0; i<links.length; i++) {
 		var d = Math.round(activity * w[i]); 	// amount of patients to transfer
 		var to = links[i]; 						// ID of receiving doctor
 		// Doc_list[to].activity = d + parseInt(Doc_list[to].activity);	
@@ -55,20 +44,44 @@ SpreadPatients = function(docid) {
 		}
 	}
 
+	//2nd wave: distribute the patients that were not accepted on the first try
 	i=0;
 	for(var key in Remainder) {
-		i+=5; // small value to show all cascades simultaneously
+		i+=1000; // small value to show all cascades simultaneously
 		rest = Remainder[key];
 		//printInfo("reassigning "+rest+" patients from doc "+key+"<br>");
-		DistributePatients(key, rest, excluded);
+		//DistributePatients(key, rest, excluded);
 		setTimeout(DistributePatients, i, key, rest, excluded);
+        setTimeout(clearLinks, i+500);
+        setTimeout(DrawLinks, i+500, docid);
 	}
 	// for(var i in links) {
 	// 	var id = links[i];
 	// 	UpdateCircle(circle_list[id]); // update color and size of docs
 	// } 
-	setTimeout(clearLinks, i+2000);
+	setTimeout(clearLinks, i+1000);
+    setTimeout(KillCircle, i+1000, circle_list[docid]);
+    //clearLinks();
+    // KillCircle(circle_list[docid]); // delete its circle from the map
 
+};
+
+
+function removeLinkFromDocs(links, docid) {
+    // we have to remove the instances of docid from all neighboring docs
+    // and renormalise their weights accordingly
+    for(var i in links) {
+        var id = links[i];
+        var doc2 = Doc_list[id];
+        var l = doc2.links;
+        var ww = doc2.weights;
+        var index = $.inArray(docid,l); // might not work on IE8, who cares?
+        l.splice(index,1);
+        ww.splice(index,1);
+        var sum = 0;
+        for(var j in ww) { sum += ww[j]; }
+        for(var j in ww) { ww[j] /= sum; }
+    }
 }
 
 DistributePatients = function(docid, nrpatients, excluded) {
@@ -93,7 +106,7 @@ DistributePatients = function(docid, nrpatients, excluded) {
 		}
 	}
 
-}
+};
 
 AssignPatients = function(docid, nrpatients) {
 // nrpatients patients attempt to pass over doctor docid
@@ -126,7 +139,7 @@ AssignPatients = function(docid, nrpatients) {
 	UpdateCircle(circle_list[docid]);
 
 	return rest;
-}
+};
 
 // Doc_list[docid] is a global variable, actually an object with the following properties:
 //
