@@ -75,19 +75,19 @@ function UpdateCircle(circle) {
     var radius = Activity2Radius(activity);
     // console.log("radius: " + oldradius + ", " + radius);
 
-  //circle.setRadius(Activity2Radius(activity));
+  // circle.setRadius(Activity2Radius(activity));
     circle.setStyle({fillColor: Acquired2Color(activity, initial)});
     growCircle(circle, radius, oldradius, 1, 10);
 }
 
 
-function growCircle(circle, maxradius, curradius, increase, tstep) {
+function growCircle(circ, maxradius, curradius, increase, tstep) {
 
     curradius += increase;
-    circle.setRadius(curradius);
+    circ.setRadius(curradius);
 
     if(curradius <= maxradius)
-        setTimeout(growCircle, tstep, maxradius, curradius, increase, tstep);
+        setTimeout(growCircle, tstep, circ, maxradius, curradius, increase, tstep);
 }
 
 function clearLinks() {
