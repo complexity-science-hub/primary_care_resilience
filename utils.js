@@ -170,7 +170,7 @@ function DrawRedirectedLinks(docid) {
                     {
                         color: "blue",
                         weight: line_width,
-                        opacity: 1.0,
+                        opacity: 0.5,
                         lineJoin: 'round'
                     }
                     ).addTo(mymap);
@@ -212,13 +212,6 @@ function DrawRedirectedLinks(docid) {
         var currentlng = p_start.lng + cur_step*stepdir.lng;
 
         var latlng= [];
-
-
-        // if(isNaN(p_start.lat) || isNaN(p_start.lng) || isNaN(currentlat) || isNaN(currentlng) )
-        // {
-        //     console.warn("invalid coords!");
-        // }
-
         var l0 = L.latLng(p_start.lat, p_start.lng);
         var l1 = L.latLng(currentlat, currentlng);
         latlng.push(l0);
