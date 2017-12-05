@@ -149,6 +149,7 @@ function DrawRedirectedLinks(docid) {
 // used when patients aredirected
 
   var doctor = Doc_list[docid]; //recalls a global var
+    console.log(doctor.links.length);
 
               for(var j=0; j<doctor.links.length; j+=1)
               {
@@ -220,8 +221,14 @@ function DrawRedirectedLinks(docid) {
         //set updated line
         pline.setLatLngs(latlng);
 
+        //trigger next animation step
         if(cur_step <= max_step)
-            setTimeout(animateLink, 100, pline, p_start, p_end, max_step, cur_step, stepdir, first, duration)
+            setTimeout(animateLink, 100, pline, p_start, p_end, max_step, cur_step, stepdir, first, duration);
+        //initiate next spread if line reached its destination
+        else
+        {
+
+        }
 
     }
 }

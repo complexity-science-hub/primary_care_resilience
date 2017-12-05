@@ -31,10 +31,14 @@ SpreadPatients = function(docid) {
 
 
 	//1st wave: move patients to other (linked doctors)
-    for(var i=0; i<links.length; i++) {
+    for(var i=0; i<links.length; i++)
+    {
+
+
 		var d = Math.round(activity * w[i]); 	// amount of patients to transfer
 		var to = links[i]; 						// ID of receiving doctor
-		// Doc_list[to].activity = d + parseInt(Doc_list[to].activity);	
+		// Doc_list[to].activity = d + parseInt(Doc_list[to].activity);
+
 		if(d>0) {	
 			rest  = AssignPatients(to, d);
 			excluded.push(to);
@@ -42,7 +46,11 @@ SpreadPatients = function(docid) {
 				Remainder[to] = rest;
 			}
 		}
+
+
 	}
+
+
 
 	//2nd wave: distribute the patients that were not accepted on the first try
 	i=0;
@@ -52,15 +60,27 @@ SpreadPatients = function(docid) {
 		//printInfo("reassigning "+rest+" patients from doc "+key+"<br>");
 		//DistributePatients(key, rest, excluded);
 		setTimeout(DistributePatients, i, key, rest, excluded);
+
+
+
+
         // setTimeout(clearLinks, i+500);
-        setTimeout(DrawRedirectedLinks, i+500, docid);
+        //setTimeout(DrawRedirectedLinks, i+500, docid);
 	}
+
+
 	// for(var i in links) {
 	// 	var id = links[i];
 	// 	UpdateCircle(circle_list[id]); // update color and size of docs
 	// } 
 	// setTimeout(clearLinks, i+1000);
+
+
+
     setTimeout(KillCircle, i+1000, circle_list[docid]);
+
+
+
     //clearLinks();
     // KillCircle(circle_list[docid]); // delete its circle from the map
 
