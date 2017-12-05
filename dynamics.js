@@ -6,10 +6,10 @@ RemoveDoctor = function(docid) {
 // i.e. when SHIFT-click or ALT-click is pressed
 // docid: the id of the doctor to be removed
 
-	clearLinks(); 					// remove all links from the map
-    DrawRedirectedLinks(docid);
-	// SpreadPatients(docid);
-	setTimeout(SpreadPatients, 1000, docid); 			// spread among his neighbors
+	clearLinks(); 					// remove all links from the map;
+    SpreadPatients(docid);
+    DrawRedirectedLinks(docid)
+	// setTimeout(SpreadPatients, 1000, docid); 			// spread among his neighbors
 }
 
 SpreadPatients = function(docid) {
@@ -53,27 +53,14 @@ SpreadPatients = function(docid) {
 
 
 	//2nd wave: distribute the patients that were not accepted on the first try
-	i=0;
-	for(var key in Remainder) {
-		i+=1000; // small value to show all cascades simultaneously
-		rest = Remainder[key];
-		//printInfo("reassigning "+rest+" patients from doc "+key+"<br>");
-		//DistributePatients(key, rest, excluded);
-		setTimeout(DistributePatients, i, key, rest, excluded);
+	// i=0;
+	// for(var key in Remainder) {
+	// 	i+=1000; // small value to show all cascades simultaneously
+	// 	rest = Remainder[key];
+	// 	setTimeout(DistributePatients, i, key, rest, excluded);
+	// }
 
 
-
-
-        // setTimeout(clearLinks, i+500);
-        //setTimeout(DrawRedirectedLinks, i+500, docid);
-	}
-
-
-	// for(var i in links) {
-	// 	var id = links[i];
-	// 	UpdateCircle(circle_list[id]); // update color and size of docs
-	// } 
-	// setTimeout(clearLinks, i+1000);
 
 
 
@@ -156,7 +143,7 @@ AssignPatients = function(docid, nrpatients) {
 	doc.activity = assigned + parseInt(doc.activity);
 	//printInfo("assigned "+assigned+" patients to doc "+docid+" rest "+rest+"<br>");
 
-	UpdateCircle(circle_list[docid]);
+	// UpdateCircle(circle_list[docid]);
 
 	return rest;
 };

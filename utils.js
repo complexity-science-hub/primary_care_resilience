@@ -78,11 +78,11 @@ function UpdateCircle(circle) {
 
    //circle.setRadius(radius); //Activity2Radius(activity)
     circle.setStyle({fillColor: Acquired2Color(activity, initial)});
-    growCircle(circle, radius, oldradius, 1, 0, true);
+    growCircle(circle, radius, oldradius, 0.5, 0, true);
 }
 
-var duration = 500;
 function growCircle(circ, maxradius, curradius, increase, tstep, first) {
+    var duration = 1000;
 
     var span, numsteps;
     if(first)
@@ -90,6 +90,7 @@ function growCircle(circ, maxradius, curradius, increase, tstep, first) {
         span = maxradius - curradius;
         numsteps = span / increase;
         tstep = duration / numsteps;
+        // console.log(tstep);
         first = false;
     }
 
@@ -149,7 +150,7 @@ function DrawRedirectedLinks(docid) {
 // used when patients aredirected
 
   var doctor = Doc_list[docid]; //recalls a global var
-    console.log(doctor.links.length);
+    // console.log(doctor.links.length);
 
               for(var j=0; j<doctor.links.length; j+=1)
               {
@@ -181,7 +182,7 @@ function DrawRedirectedLinks(docid) {
 
                 var direction = {};
 
-                animateLink(polyline, p0, p1, 50, 0, direction, true, 1000);
+                animateLink(polyline, p0, p1, 50, 0, direction, true, 500, doc2.docid);
                 link_list.push(polyline);
 
                 doctor.links_displayed = true;
@@ -193,7 +194,7 @@ function DrawRedirectedLinks(docid) {
         this.lng = parseFloat(lng);
     }
 
-    function animateLink(pline, p_start, p_end, max_step, cur_step, stepdir, first, duration)
+    function animateLink(pline, p_start, p_end, max_step, cur_step, stepdir, first, duration, targetdoc)
     {
         cur_step++;
 
@@ -205,6 +206,8 @@ function DrawRedirectedLinks(docid) {
             steplat = deltalat/max_step;
             steplng = deltalng/max_step;
             stepdir = new geo_point(steplat, steplng);
+
+            duration = duration / max_step;
 
             first = false;
         }
@@ -223,11 +226,12 @@ function DrawRedirectedLinks(docid) {
 
         //trigger next animation step
         if(cur_step <= max_step)
-            setTimeout(animateLink, 100, pline, p_start, p_end, max_step, cur_step, stepdir, first, duration);
+            setTimeout(animateLink, duration, pline, p_start, p_end, max_step, cur_step, stepdir, first, duration, targetdoc);
         //initiate next spread if line reached its destination
         else
         {
-
+            if(circle_list[targetdoc] != undefined)
+                UpdateCircle(circle_list[targetdoc]);
         }
 
     }
