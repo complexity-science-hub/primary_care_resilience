@@ -148,9 +148,11 @@ function DrawRedirectedLinks(docid) {
 // show the links from docid to others
 // used when patients aredirected
 
-  var doctor = Doc_list[docid]; // recalls a global var
+  var doctor = Doc_list[docid]; //recalls a global var
 
-              for(var j=0; j<doctor.links.length; j+=1) {
+              for(var j=0; j<doctor.links.length; j+=1)
+              {
+
                 var doc2 = Doc_list[doctor.links[j]];
                 var w = doctor.weights[j];
                 var lat_from = doctor.lat;
@@ -160,21 +162,73 @@ function DrawRedirectedLinks(docid) {
 
                 if(w<1e-2) continue; // do not show links under 1%
 
-                var line_width = w*20; // transform into line width
+                var line_width = w*100; // transform into line width
                 var polyline = L.polyline([
                     [lat_from, lng_from],
-                    [lat_to, lng_to]
+                    [lat_from, lng_from]
                     ],
                     {
-                        color: "lightgreen",
+                        color: "blue",
                         weight: line_width,
-                        opacity: .7,
+                        opacity: 1.0,
                         lineJoin: 'round'
                     }
                     ).addTo(mymap);
 
+                var p0 = new geo_point(lat_from, lng_from);
+                var p1 = new geo_point(lat_to, lng_to);
+
+                var direction = {};
+
+                animateLink(polyline, p0, p1, 50, 0, direction, true, 1000);
                 link_list.push(polyline);
 
                 doctor.links_displayed = true;
               }
+
+
+    function geo_point(lat, lng) {
+        this.lat = parseFloat(lat);
+        this.lng = parseFloat(lng);
+    }
+
+    function animateLink(pline, p_start, p_end, max_step, cur_step, stepdir, first, duration)
+    {
+        cur_step++;
+
+        if(first)
+        {
+            var deltalat, deltalng, steplat, steplng;
+            deltalat = p_end.lat - p_start.lat;
+            deltalng = p_end.lng - p_start.lng;
+            steplat = deltalat/max_step;
+            steplng = deltalng/max_step;
+            stepdir = new geo_point(steplat, steplng);
+
+            first = false;
+        }
+
+        var currentlat = p_start.lat + cur_step*stepdir.lat;
+        var currentlng = p_start.lng + cur_step*stepdir.lng;
+
+        var latlng= [];
+
+
+        // if(isNaN(p_start.lat) || isNaN(p_start.lng) || isNaN(currentlat) || isNaN(currentlng) )
+        // {
+        //     console.warn("invalid coords!");
+        // }
+
+        var l0 = L.latLng(p_start.lat, p_start.lng);
+        var l1 = L.latLng(currentlat, currentlng);
+        latlng.push(l0);
+        latlng.push(l1);
+
+        //set updated line
+        pline.setLatLngs(latlng);
+
+        if(cur_step <= max_step)
+            setTimeout(animateLink, 100, pline, p_start, p_end, max_step, cur_step, stepdir, first, duration)
+
+    }
 }

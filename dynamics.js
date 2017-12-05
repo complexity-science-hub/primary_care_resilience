@@ -7,7 +7,7 @@ RemoveDoctor = function(docid) {
 // docid: the id of the doctor to be removed
 
 	clearLinks(); 					// remove all links from the map
-	DrawLinks(docid);
+    DrawRedirectedLinks(docid);
 	// SpreadPatients(docid);
 	setTimeout(SpreadPatients, 1000, docid); 			// spread among his neighbors
 }
@@ -53,7 +53,7 @@ SpreadPatients = function(docid) {
 		//DistributePatients(key, rest, excluded);
 		setTimeout(DistributePatients, i, key, rest, excluded);
         setTimeout(clearLinks, i+500);
-        setTimeout(DrawLinks, i+500, docid);
+        setTimeout(DrawRedirectedLinks, i+500, docid);
 	}
 	// for(var i in links) {
 	// 	var id = links[i];
@@ -89,9 +89,11 @@ DistributePatients = function(docid, nrpatients, excluded) {
 // excluding those who already got some (not used at the moment)
 
 	//clearLinks(); // comment out to show cascade simultaneously
+    // DrawRedirectedLinks(docid);
     DrawRedirectedLinks(docid);
 
-	var doc = Doc_list[docid];
+
+    var doc = Doc_list[docid];
 	var l = doc.links;
 	var w = doc.weights;
 	var rest;
