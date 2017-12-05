@@ -36,6 +36,7 @@ function Activity2Color(a) {
 }
 
 function Acquired2Color(a, i) {
+
 // from acquired nr of patients determines circle radius 
 // a = current nr of patients
 // i = initial nr of patients
@@ -71,13 +72,13 @@ function UpdateCircle(circle) {
     var activity = Doc_list[circle.doc_id].activity;
     var initial = Doc_list[circle.doc_id].initial_patients;
 
-    var oldradius = circle.options.radius;
+    var oldradius = circle.getRadius();
     var radius = Activity2Radius(activity);
     // console.log("radius: " + oldradius + ", " + radius);
 
-  // circle.setRadius(Activity2Radius(activity));
+   //circle.setRadius(radius); //Activity2Radius(activity)
     circle.setStyle({fillColor: Acquired2Color(activity, initial)});
-    growCircle(circle, radius, oldradius, 2, 0, true);
+    growCircle(circle, radius, oldradius, 1, 0, true);
 }
 
 var duration = 500;

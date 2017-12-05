@@ -89,7 +89,7 @@ DistributePatients = function(docid, nrpatients, excluded) {
 // excluding those who already got some (not used at the moment)
 
 	//clearLinks(); // comment out to show cascade simultaneously
-		DrawRedirectedLinks(docid);
+    DrawRedirectedLinks(docid);
 
 	var doc = Doc_list[docid];
 	var l = doc.links;
@@ -105,7 +105,6 @@ DistributePatients = function(docid, nrpatients, excluded) {
 			}
 		}
 	}
-
 };
 
 AssignPatients = function(docid, nrpatients) {
@@ -125,7 +124,6 @@ AssignPatients = function(docid, nrpatients) {
 	var rest = 0; // patients not assigned 
 	var assigned = 0; // patients assigned
 
-	
 
 	if(nrpatients < accepted_patients) {
 		assigned = nrpatients;

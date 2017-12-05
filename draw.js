@@ -74,6 +74,7 @@ function DrawDoctors() {
         var doctor = docs[i];
         var circle = L.circle([doctor.lat, doctor.lng], {
             color: 'black',
+            weight: 1,
             fillColor: Acquired2Color(doctor.activity, doctor.initial_patients),
             fillOpacity: 0.8,
             radius: Activity2Radius(doctor.activity)
