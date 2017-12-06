@@ -106,8 +106,9 @@ function growCircle(circ, maxradius, curradius, increase, tstep, first) {
             //starting a new wave
             var nrpats = Remainder[circ.doc_id];
             Remainder[circ.doc_id] = 0; //reset the remaining pats for this doc
-            DistributePatients(circ.doc_id, nrpats);
-            DrawRedirectedLinks(circ.doc_id, false);
+            var links = [];
+            links = DistributePatients(circ.doc_id, nrpats);
+            DrawRedirectedLinks(circ.doc_id, links, false);
         }
         //ending the wave
         else
@@ -163,46 +164,45 @@ function clearLinks() {
 
 // show the links from docid to others
 // used when patients aredirected
-function DrawRedirectedLinks(docid, kill) {
+function DrawRedirectedLinks(docid, linked_docs, kill) {
 
-  var doctor = Doc_list[docid]; //recalls a global var
-    // console.log(doctor.links.length);
+        var doctor = Doc_list[docid]; //recalls a global var
+        // console.log(linked_docs.length);
 
-              for(var j=0; j<doctor.links.length; j+=1)
-              {
+      for(var j=0; j<linked_docs.length; j+=1)
+      {
+        var doc2 = Doc_list[linked_docs[j]];
+        var w = doctor.weights[j];
+        var lat_from = doctor.lat;
+        var lng_from = doctor.lng;
+        var lat_to = doc2.lat;
+        var lng_to = doc2.lng;
 
-                var doc2 = Doc_list[doctor.links[j]];
-                var w = doctor.weights[j];
-                var lat_from = doctor.lat;
-                var lng_from = doctor.lng;
-                var lat_to = doc2.lat;
-                var lng_to = doc2.lng;
+        if(w<1e-2) continue; // do not show links under 1%
 
-                if(w<1e-2) continue; // do not show links under 1%
+        var line_width = w*100; // transform into line width
+        var polyline = L.polyline([
+            [lat_from, lng_from],
+            [lat_from, lng_from]
+            ],
+            {
+                color: "blue",
+                weight: line_width,
+                opacity: 0.5,
+                lineJoin: 'round'
+            }
+            ).addTo(mymap);
 
-                var line_width = w*100; // transform into line width
-                var polyline = L.polyline([
-                    [lat_from, lng_from],
-                    [lat_from, lng_from]
-                    ],
-                    {
-                        color: "blue",
-                        weight: line_width,
-                        opacity: 0.5,
-                        lineJoin: 'round'
-                    }
-                    ).addTo(mymap);
+        var p0 = new geo_point(lat_from, lng_from);
+        var p1 = new geo_point(lat_to, lng_to);
 
-                var p0 = new geo_point(lat_from, lng_from);
-                var p1 = new geo_point(lat_to, lng_to);
+        var direction = {};
 
-                var direction = {};
+        animateLink(polyline, p0, p1, 50, 0, direction, true, 500, doc2.docid, docid, kill);
+        link_list.push(polyline);
 
-                animateLink(polyline, p0, p1, 50, 0, direction, true, 500, doc2.docid, docid, kill);
-                link_list.push(polyline);
-
-                doctor.links_displayed = true;
-              }
+        doctor.links_displayed = true;
+      }
 
 
     function geo_point(lat, lng) {

@@ -16,9 +16,10 @@ RemoveDoctor = function(docid) {
     removeLinkFromDocs(Doc_list[docid].links, docid);
 
     // SpreadPatients(docid);
-    DistributePatients(docid, Doc_list[docid].activity);
+    var links = [];
+    links = DistributePatients(docid, Doc_list[docid].activity);
 
-    DrawRedirectedLinks(docid, true);
+    DrawRedirectedLinks(docid, links, true);
 	// setTimeout(SpreadPatients, 1000, docid); 			// spread among his neighbors
 };
 
@@ -67,6 +68,7 @@ RemoveDoctor = function(docid) {
 DistributePatients = function(docid, nrpatients) {
 
     // DrawRedirectedLinks(docid);
+    var links = [];
 
     var doc = Doc_list[docid];
     var l = doc.links;
@@ -84,6 +86,7 @@ DistributePatients = function(docid, nrpatients) {
         if(d>0) {
             if($.inArray(to,excluded)<0)
             {
+                links.push(to); //add this doc to the list of docs that received patients from the current doc
                 rest = AssignPatients(to, d);
 
                 if(rest>0)
@@ -105,6 +108,7 @@ DistributePatients = function(docid, nrpatients) {
     //if(localrest > 0)
         console.log("from " + nrpatients + ", " + localrest + " were forwarded. " + rejected + " were rejected & will be again forwarded. " + (nrpatients - localrest) + " were not forwarded @" + docid);
 
+    return links;
 };
 
 
