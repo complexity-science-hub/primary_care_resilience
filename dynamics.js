@@ -6,6 +6,10 @@ RemoveDoctor = function(docid) {
 // i.e. when SHIFT-click or ALT-click is pressed
 // docid: the id of the doctor to be removed
 
+    //reset the list of excluded docs & the remaining patients
+    excluded = [];
+    Remainder = {};
+
 	clearLinks(); 					// remove all links from the map;
     // we have to remove the instances of docid from all neighboring docs
     // and renormalise their weights accordingly
@@ -67,23 +71,37 @@ DistributePatients = function(docid, nrpatients) {
     var l = doc.links;
     var w = doc.weights;
     var rest;
-    for(var i in l) {
+    var localrest = 0;
+
+    for(var i in l)
+    {
         var to  = l[i];
         var d = Math.round(nrpatients * w[i]);
+
         if(d>0) {
-            if(1 || $.inArray(to,excluded)<0) { // WATCH OUT: this is not used now!!!
+            if($.inArray(to,excluded)<0)
+            {
                 rest = AssignPatients(to, d);
-                if(rest>0) {
+
+                if(rest>0)
+                {
                     if(Remainder[to] != undefined)
                         console.log("overwriting remainder of doc: " + to); //todo: should not happen when using excluded list
+
                     else Remainder[to] = 0; //init
+
                     //todo: once excluded list is used adding should not be necessary
                     Remainder[to] += rest;
+                    localrest += rest;
                 }
                 excluded.push(to);
             }
+            else console.log(to + " has already been visited - skipping.");
         }
     }
+
+    console.log("from " + nrpatients + ", " + localrest + " could not be redistributed @" + docid);
+
 };
 
 
@@ -102,6 +120,7 @@ AssignPatients = function(docid, nrpatients) {
 
     var doc = Doc_list[docid];
     var accepted_patients = Math.floor(fraction_accepted * doc.activity); // assume he will accept 10% of current activity
+    console.log(docid + "will accept " + accepted_patients + " of " + nrpatients + "partients");
     var rest = 0; // patients not assigned
     var assigned = 0; // patients assigned
 

@@ -95,16 +95,21 @@ function growCircle(circ, maxradius, curradius, increase, tstep, first) {
     circ.setRadius(curradius);
 
     if(curradius <= maxradius)
+    {
         setTimeout(growCircle, tstep, circ, maxradius, curradius, increase, tstep, first);
-
+    }
     //after the circle finished growing (accepting patients), we distribute the remaining patients
     else
     {
         if(Remainder[circ.doc_id] > 0)
         {
-            DistributePatients(circ.doc_id, Remainder[circ.doc_id]);
+            //starting a new wave
+            var nrpats = Remainder[circ.doc_id];
+            Remainder[circ.doc_id] = 0; //reset the remaining pats for this doc
+            DistributePatients(circ.doc_id, nrpats);
             DrawRedirectedLinks(circ.doc_id, false);
         }
+        //ending the wave
         else
         {
             console.log("doc #" + circ.doc_id + " absorbed all incoming patients");
