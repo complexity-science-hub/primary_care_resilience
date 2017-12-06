@@ -82,7 +82,7 @@ function UpdateCircle(circle) {
 }
 
 function growCircle(circ, maxradius, curradius, increase, tstep, first) {
-    var duration = 1000;
+    var duration = 500;
 
     var span, numsteps;
     if(first)
@@ -99,6 +99,11 @@ function growCircle(circ, maxradius, curradius, increase, tstep, first) {
 
     if(curradius <= maxradius)
         setTimeout(growCircle, tstep, circ, maxradius, curradius, increase, tstep, first);
+    //after the circle finished growing (accepting patients), we distribute the remaining patients
+    else
+    {
+
+    }
 }
 
 function clearLinks() {

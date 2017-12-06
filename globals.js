@@ -11,3 +11,25 @@ var circle_list = {};	// list of circles (doctors)
 var link_list = [];		// active polyline links on map
 var activity_max;       // max activity of a doctor
 var Doc_list = {};	// list of doctors indexed by doc_id
+
+var excluded = [];
+// var excluded = [docid]; // do not include these doctors in the cascade
+var Remainder = {};
+
+
+// Doc_list[docid] is a global variable, actually an object with the following properties:
+//
+// :links_displayed	(a boolean indicating whether doc's links are currently displayed on map)
+// :district_name 	(a string with the name of the district the doc belongs to)
+// :docid 			(the id of the doctor, which is also the key used in Doc_list[])
+// :fg 				(Fachgebiet of the doctor, i.e. his specialisation)
+// :group 			(the group the doc belongs to; group=1 coincides with general doctors)
+// :lat 			(doc's latitude)
+// :lng 			(doc's longitude)
+//
+// :activity 		(an integer counting the nr of patients)
+// :initial_patients (initial nr of patients)
+// :links 			(list of doctor IDs this doctor is connected to)
+// :weights			(list of weights corresponding to the above links)
+//
+// these last three properties are very important to build the simulation

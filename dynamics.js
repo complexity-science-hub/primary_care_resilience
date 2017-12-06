@@ -7,10 +7,15 @@ RemoveDoctor = function(docid) {
 // docid: the id of the doctor to be removed
 
 	clearLinks(); 					// remove all links from the map;
+    // we have to remove the instances of docid from all neighboring docs
+    // and renormalise their weights accordingly
+    removeLinkFromDocs(Doc_list[docid].links, docid);
+
     SpreadPatients(docid);
-    DrawRedirectedLinks(docid)
+
+    DrawRedirectedLinks(docid);
 	// setTimeout(SpreadPatients, 1000, docid); 			// spread among his neighbors
-}
+};
 
 SpreadPatients = function(docid) {
 // distributes the patients of the removed docid to his neighbors according to link weights
@@ -20,37 +25,24 @@ SpreadPatients = function(docid) {
 	var links = doc.links;
 	var w = doc.weights;
 	var rest; // nr of patients not accepted by neighbor
-	var excluded = [docid]; // do not include these doctors in the cascade
-
-	var Remainder = {};
-
-
-    // we have to remove the instances of docid from all neighboring docs
-    // and renormalise their weights accordingly
-    removeLinkFromDocs(links, docid);
-
+    // var excluded = [docid]; // do not include these doctors in the cascade
+	// var Remainder = {};
 
 	//1st wave: move patients to other (linked doctors)
     for(var i=0; i<links.length; i++)
     {
-
-
 		var d = Math.round(activity * w[i]); 	// amount of patients to transfer
 		var to = links[i]; 						// ID of receiving doctor
 		// Doc_list[to].activity = d + parseInt(Doc_list[to].activity);
 
-		if(d>0) {	
+		if(d>0) {
 			rest  = AssignPatients(to, d);
 			excluded.push(to);
 			if(rest>0) {
 				Remainder[to] = rest;
 			}
 		}
-
-
 	}
-
-
 
 	//2nd wave: distribute the patients that were not accepted on the first try
 	// i=0;
@@ -60,18 +52,69 @@ SpreadPatients = function(docid) {
 	// 	setTimeout(DistributePatients, i, key, rest, excluded);
 	// }
 
-
-
-
-
     setTimeout(KillCircle, i+1000, circle_list[docid]);
-
-
-
-    //clearLinks();
-    // KillCircle(circle_list[docid]); // delete its circle from the map
-
 };
+
+
+// distributes nrpatients among the neigbors of docid
+// excluding those who already got some (not used at the moment)
+DistributePatients = function(docid, nrpatients, excluded) {
+
+    DrawRedirectedLinks(docid);
+
+    var doc = Doc_list[docid];
+    var l = doc.links;
+    var w = doc.weights;
+    var rest;
+    for(var i in l) {
+        var to  = l[i];
+        var d = Math.round(nrpatients * w[i]);
+        if(d>0) {
+            if(1 || $.inArray(to,excluded)<0) { // WATCH OUT: this is not used now!!!
+                rest = AssignPatients(to, d);
+                if(rest>0) {
+                    Remainder[to] = rest;
+                }
+                excluded.push(to);
+            }
+        }
+    }
+};
+
+
+
+AssignPatients = function(docid, nrpatients) {
+// nrpatients patients attempt to pass over doctor docid
+// not all of them are accepted, though.
+//
+// returns the number of patients not accepted
+
+    if(nrpatients==0) return;
+
+    //DrawLinks(docid);
+
+    var fraction_accepted = 0.1; // 10% of accepted patients
+
+    var doc = Doc_list[docid];
+    var accepted_patients = Math.floor(fraction_accepted * doc.activity); // assume he will accept 10% of current activity
+    var rest = 0; // patients not assigned
+    var assigned = 0; // patients assigned
+
+
+    if(nrpatients < accepted_patients) {
+        assigned = nrpatients;
+    } else {
+        rest = nrpatients - accepted_patients;
+        assigned = accepted_patients;
+    }
+    doc.activity = assigned + parseInt(doc.activity);
+    //printInfo("assigned "+assigned+" patients to doc "+docid+" rest "+rest+"<br>");
+
+    // UpdateCircle(circle_list[docid]);
+
+    return rest;
+};
+
 
 
 function removeLinkFromDocs(links, docid) {
@@ -90,77 +133,3 @@ function removeLinkFromDocs(links, docid) {
         for(var j in ww) { ww[j] /= sum; }
     }
 }
-
-DistributePatients = function(docid, nrpatients, excluded) {
-// distributes nrpatients among the neigbors of docid
-// excluding those who already got some (not used at the moment)
-
-	//clearLinks(); // comment out to show cascade simultaneously
-    // DrawRedirectedLinks(docid);
-    DrawRedirectedLinks(docid);
-
-
-    var doc = Doc_list[docid];
-	var l = doc.links;
-	var w = doc.weights;
-	var rest;
-	for(var i in l) {
-		var to  = l[i];
-		var d = Math.round(nrpatients * w[i]);
-		if(d>0) {
-			if(1 || $.inArray(to,excluded)<0) { // WATCH OUT: this is not used now!!!
-				rest = AssignPatients(to, d);
-				excluded.push(to);
-			}
-		}
-	}
-};
-
-AssignPatients = function(docid, nrpatients) {
-// nrpatients patients attempt to pass over doctor docid
-// not all of them are accepted, though.
-//
-// returns the number of patients not accepted
-
-	if(nrpatients==0) return;
-
-	//DrawLinks(docid);
-
-	var fraction_accepted = 0.1; // 10% of accepted patients
-
-	var doc = Doc_list[docid];
-	var accepted_patients = Math.floor(fraction_accepted * doc.activity); // assume he will accept 10% of current activity
-	var rest = 0; // patients not assigned 
-	var assigned = 0; // patients assigned
-
-
-	if(nrpatients < accepted_patients) {
-		assigned = nrpatients;
-	} else {
-		rest = nrpatients - accepted_patients;
-		assigned = accepted_patients; 
-	}
-	doc.activity = assigned + parseInt(doc.activity);
-	//printInfo("assigned "+assigned+" patients to doc "+docid+" rest "+rest+"<br>");
-
-	// UpdateCircle(circle_list[docid]);
-
-	return rest;
-};
-
-// Doc_list[docid] is a global variable, actually an object with the following properties:
-//
-// :links_displayed	(a boolean indicating whether doc's links are currently displayed on map)
-// :district_name 	(a string with the name of the district the doc belongs to)
-// :docid 			(the id of the doctor, which is also the key used in Doc_list[])
-// :fg 				(Fachgebiet of the doctor, i.e. his specialisation)
-// :group 			(the group the doc belongs to; group=1 coincides with general doctors)
-// :lat 			(doc's latitude)
-// :lng 			(doc's longitude)
-//
-// :activity 		(an integer counting the nr of patients)
-// :initial_patients (initial nr of patients)
-// :links 			(list of doctor IDs this doctor is connected to)
-// :weights			(list of weights corresponding to the above links)
-//
-// these last three properties are very important to build the simulation
