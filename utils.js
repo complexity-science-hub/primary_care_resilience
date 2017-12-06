@@ -74,9 +74,7 @@ function UpdateCircle(circle) {
 
     var oldradius = circle.getRadius();
     var radius = Activity2Radius(activity);
-    // console.log("radius: " + oldradius + ", " + radius);
 
-   //circle.setRadius(radius); //Activity2Radius(activity)
     circle.setStyle({fillColor: Acquired2Color(activity, initial)});
     growCircle(circle, radius, oldradius, 0.5, 0, true);
 }
@@ -90,7 +88,6 @@ function growCircle(circ, maxradius, curradius, increase, tstep, first) {
         span = maxradius - curradius;
         numsteps = span / increase;
         tstep = duration / numsteps;
-        // console.log(tstep);
         first = false;
     }
 
@@ -99,10 +96,19 @@ function growCircle(circ, maxradius, curradius, increase, tstep, first) {
 
     if(curradius <= maxradius)
         setTimeout(growCircle, tstep, circ, maxradius, curradius, increase, tstep, first);
+
     //after the circle finished growing (accepting patients), we distribute the remaining patients
     else
     {
-
+        if(Remainder[circ.doc_id] > 0)
+        {
+            DistributePatients(circ.doc_id, Remainder[circ.doc_id]);
+            DrawRedirectedLinks(circ.doc_id, false);
+        }
+        else
+        {
+            console.log("doc #" + circ.doc_id + " absorbed all incoming patients");
+        }
     }
 }
 
@@ -150,7 +156,7 @@ function DrawLinks(docid) {
               }
 }
 
-function DrawRedirectedLinks(docid) {
+function DrawRedirectedLinks(docid, kill) {
 // show the links from docid to others
 // used when patients aredirected
 
@@ -187,7 +193,7 @@ function DrawRedirectedLinks(docid) {
 
                 var direction = {};
 
-                animateLink(polyline, p0, p1, 50, 0, direction, true, 500, doc2.docid);
+                animateLink(polyline, p0, p1, 50, 0, direction, true, 500, doc2.docid, docid, kill);
                 link_list.push(polyline);
 
                 doctor.links_displayed = true;
@@ -199,7 +205,7 @@ function DrawRedirectedLinks(docid) {
         this.lng = parseFloat(lng);
     }
 
-    function animateLink(pline, p_start, p_end, max_step, cur_step, stepdir, first, duration, targetdoc)
+    function animateLink(pline, p_start, p_end, max_step, cur_step, stepdir, first, duration, targetdoc, sourcedoc, kill)
     {
         cur_step++;
 
@@ -231,10 +237,13 @@ function DrawRedirectedLinks(docid) {
 
         //trigger next animation step
         if(cur_step <= max_step)
-            setTimeout(animateLink, duration, pline, p_start, p_end, max_step, cur_step, stepdir, first, duration, targetdoc);
+            setTimeout(animateLink, duration, pline, p_start, p_end, max_step, cur_step, stepdir, first, duration, targetdoc, sourcedoc, kill);
         //initiate next spread if line reached its destination
         else
         {
+            if(kill && circle_list[sourcedoc] != undefined)
+                KillCircle(circle_list[sourcedoc]);
+
             if(circle_list[targetdoc] != undefined)
                 UpdateCircle(circle_list[targetdoc]);
         }

@@ -11,9 +11,10 @@ RemoveDoctor = function(docid) {
     // and renormalise their weights accordingly
     removeLinkFromDocs(Doc_list[docid].links, docid);
 
-    SpreadPatients(docid);
+    // SpreadPatients(docid);
+    DistributePatients(docid, Doc_list[docid].activity);
 
-    DrawRedirectedLinks(docid);
+    DrawRedirectedLinks(docid, true);
 	// setTimeout(SpreadPatients, 1000, docid); 			// spread among his neighbors
 };
 
@@ -52,15 +53,15 @@ SpreadPatients = function(docid) {
 	// 	setTimeout(DistributePatients, i, key, rest, excluded);
 	// }
 
-    setTimeout(KillCircle, i+1000, circle_list[docid]);
+    // setTimeout(KillCircle, i+1000, circle_list[docid]);
 };
 
 
 // distributes nrpatients among the neigbors of docid
 // excluding those who already got some (not used at the moment)
-DistributePatients = function(docid, nrpatients, excluded) {
+DistributePatients = function(docid, nrpatients) {
 
-    DrawRedirectedLinks(docid);
+    // DrawRedirectedLinks(docid);
 
     var doc = Doc_list[docid];
     var l = doc.links;
@@ -73,7 +74,11 @@ DistributePatients = function(docid, nrpatients, excluded) {
             if(1 || $.inArray(to,excluded)<0) { // WATCH OUT: this is not used now!!!
                 rest = AssignPatients(to, d);
                 if(rest>0) {
-                    Remainder[to] = rest;
+                    if(Remainder[to] != undefined)
+                        console.log("overwriting remainder of doc: " + to); //todo: should not happen when using excluded list
+                    else Remainder[to] = 0; //init
+                    //todo: once excluded list is used adding should not be necessary
+                    Remainder[to] += rest;
                 }
                 excluded.push(to);
             }
