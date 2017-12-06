@@ -106,6 +106,9 @@ function growCircle(circ, maxradius, curradius, increase, tstep, first) {
             //starting a new wave
             var nrpats = Remainder[circ.doc_id];
             Remainder[circ.doc_id] = 0; //reset the remaining pats for this doc
+
+            removeLinkFromDocs(Doc_list[circ.doc_id].links, circ.doc_id);
+
             var links = [];
             links = DistributePatients(circ.doc_id, nrpats);
             DrawRedirectedLinks(circ.doc_id, links, false);

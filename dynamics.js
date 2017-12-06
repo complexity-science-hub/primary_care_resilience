@@ -148,19 +148,24 @@ AssignPatients = function(docid, nrpatients) {
 
 
 
-function removeLinkFromDocs(links, docid) {
-    // we have to remove the instances of docid from all neighboring docs
-    // and renormalise their weights accordingly
+// we have to remove the instances of docid from all neighboring docs
+// and renormalise their weights accordingly
+function removeLinkFromDocs(links, docid)
+{
     for(var i in links) {
         var id = links[i];
         var doc2 = Doc_list[id];
         var l = doc2.links;
         var ww = doc2.weights;
+
         var index = $.inArray(docid,l); // might not work on IE8, who cares?
-        l.splice(index,1);
-        ww.splice(index,1);
-        var sum = 0;
-        for(var j in ww) { sum += ww[j]; }
-        for(var j in ww) { ww[j] /= sum; }
+        if(index >= 0)
+        {
+            l.splice(index,1);
+            ww.splice(index,1);
+            var sum = 0;
+            for(var j in ww) { sum += ww[j]; }
+            for(var k in ww) { ww[k] /= sum; }
+        }
     }
 }
