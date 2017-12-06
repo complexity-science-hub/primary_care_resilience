@@ -22,43 +22,44 @@ RemoveDoctor = function(docid) {
 	// setTimeout(SpreadPatients, 1000, docid); 			// spread among his neighbors
 };
 
-SpreadPatients = function(docid) {
-// distributes the patients of the removed docid to his neighbors according to link weights
 
-	var doc = Doc_list[docid]; // this is the guy we are going to kill
-	var activity = doc.activity;
-	var links = doc.links;
-	var w = doc.weights;
-	var rest; // nr of patients not accepted by neighbor
-    // var excluded = [docid]; // do not include these doctors in the cascade
-	// var Remainder = {};
-
-	//1st wave: move patients to other (linked doctors)
-    for(var i=0; i<links.length; i++)
-    {
-		var d = Math.round(activity * w[i]); 	// amount of patients to transfer
-		var to = links[i]; 						// ID of receiving doctor
-		// Doc_list[to].activity = d + parseInt(Doc_list[to].activity);
-
-		if(d>0) {
-			rest  = AssignPatients(to, d);
-			excluded.push(to);
-			if(rest>0) {
-				Remainder[to] = rest;
-			}
-		}
-	}
-
-	//2nd wave: distribute the patients that were not accepted on the first try
-	// i=0;
-	// for(var key in Remainder) {
-	// 	i+=1000; // small value to show all cascades simultaneously
-	// 	rest = Remainder[key];
-	// 	setTimeout(DistributePatients, i, key, rest, excluded);
-	// }
-
-    // setTimeout(KillCircle, i+1000, circle_list[docid]);
-};
+// SpreadPatients = function(docid) {
+// // distributes the patients of the removed docid to his neighbors according to link weights
+//
+// 	var doc = Doc_list[docid]; // this is the guy we are going to kill
+// 	var activity = doc.activity;
+// 	var links = doc.links;
+// 	var w = doc.weights;
+// 	var rest; // nr of patients not accepted by neighbor
+//     // var excluded = [docid]; // do not include these doctors in the cascade
+// 	// var Remainder = {};
+//
+// 	//1st wave: move patients to other (linked doctors)
+//     for(var i=0; i<links.length; i++)
+//     {
+// 		var d = Math.round(activity * w[i]); 	// amount of patients to transfer
+// 		var to = links[i]; 						// ID of receiving doctor
+// 		// Doc_list[to].activity = d + parseInt(Doc_list[to].activity);
+//
+// 		if(d>0) {
+// 			rest  = AssignPatients(to, d);
+// 			excluded.push(to);
+// 			if(rest>0) {
+// 				Remainder[to] = rest;
+// 			}
+// 		}
+// 	}
+//
+// 	//2nd wave: distribute the patients that were not accepted on the first try
+// 	// i=0;
+// 	// for(var key in Remainder) {
+// 	// 	i+=1000; // small value to show all cascades simultaneously
+// 	// 	rest = Remainder[key];
+// 	// 	setTimeout(DistributePatients, i, key, rest, excluded);
+// 	// }
+//
+//     // setTimeout(KillCircle, i+1000, circle_list[docid]);
+// };
 
 
 // distributes nrpatients among the neigbors of docid
@@ -72,11 +73,13 @@ DistributePatients = function(docid, nrpatients) {
     var w = doc.weights;
     var rest;
     var localrest = 0;
+    var rejected = 0;
 
     for(var i in l)
     {
         var to  = l[i];
         var d = Math.round(nrpatients * w[i]);
+        localrest += d;
 
         if(d>0) {
             if($.inArray(to,excluded)<0)
@@ -87,20 +90,20 @@ DistributePatients = function(docid, nrpatients) {
                 {
                     if(Remainder[to] != undefined)
                         console.log("overwriting remainder of doc: " + to); //todo: should not happen when using excluded list
-
                     else Remainder[to] = 0; //init
 
                     //todo: once excluded list is used adding should not be necessary
                     Remainder[to] += rest;
-                    localrest += rest;
+                    rejected += rest;
                 }
                 excluded.push(to);
             }
-            else console.log(to + " has already been visited - skipping.");
+            // else console.log(to + " has already been visited - skipping.");
         }
     }
 
-    console.log("from " + nrpatients + ", " + localrest + " could not be redistributed @" + docid);
+    //if(localrest > 0)
+        console.log("from " + nrpatients + ", " + localrest + " were forwarded. " + rejected + " were rejected & will be again forwarded. " + (nrpatients - localrest) + " were not forwarded @" + docid);
 
 };
 
@@ -120,7 +123,7 @@ AssignPatients = function(docid, nrpatients) {
 
     var doc = Doc_list[docid];
     var accepted_patients = Math.floor(fraction_accepted * doc.activity); // assume he will accept 10% of current activity
-    console.log(docid + "will accept " + accepted_patients + " of " + nrpatients + "partients");
+    // console.log(docid + " will accept " + accepted_patients + " of " + nrpatients + " patients");
     var rest = 0; // patients not assigned
     var assigned = 0; // patients assigned
 

@@ -112,7 +112,7 @@ function growCircle(circ, maxradius, curradius, increase, tstep, first) {
         //ending the wave
         else
         {
-            console.log("doc #" + circ.doc_id + " absorbed all incoming patients");
+            //console.log("doc #" + circ.doc_id + " absorbed all incoming patients");
         }
     }
 }
@@ -126,44 +126,44 @@ function clearLinks() {
   link_list = [];
 }
 
-function DrawLinks(docid) {
-// show the links from docid to others
-// used in static situations to show weights
+// function DrawLinks(docid) {
+// // show the links from docid to others
+// // used in static situations to show weights
+//
+//   var doctor = Doc_list[docid]; // recalls a global var
+//
+//               for(var j=0; j<doctor.links.length; j+=1) {
+//                 var doc2 = Doc_list[doctor.links[j]];
+//                 var w = doctor.weights[j];
+//                 var lat_from = doctor.lat;
+//                 var lng_from = doctor.lng;
+//                 var lat_to = doc2.lat;
+//                 var lng_to = doc2.lng;
+//
+//                 if(w<1e-2) continue; // do not show links under 1%
+//
+//                 var line_width = w*100; // transform into line width
+//                 var polyline = L.polyline([
+//                     [lat_from, lng_from],
+//                     [lat_to, lng_to]
+//                     ],
+//                     {
+//                         color: "blue",
+//                         weight: line_width,
+//                         opacity: .7,
+//                         lineJoin: 'round'
+//                     }
+//                     ).addTo(mymap);
+//
+//                 link_list.push(polyline);
+//
+//                 doctor.links_displayed = true;
+//               }
+// }
 
-  var doctor = Doc_list[docid]; // recalls a global var
-
-              for(var j=0; j<doctor.links.length; j+=1) {
-                var doc2 = Doc_list[doctor.links[j]];
-                var w = doctor.weights[j];
-                var lat_from = doctor.lat;
-                var lng_from = doctor.lng;
-                var lat_to = doc2.lat;
-                var lng_to = doc2.lng;
-
-                if(w<1e-2) continue; // do not show links under 1%
-
-                var line_width = w*100; // transform into line width
-                var polyline = L.polyline([
-                    [lat_from, lng_from],
-                    [lat_to, lng_to]
-                    ],
-                    {
-                        color: "blue",
-                        weight: line_width,
-                        opacity: .7,
-                        lineJoin: 'round'
-                    }
-                    ).addTo(mymap);
-
-                link_list.push(polyline);
-
-                doctor.links_displayed = true;
-              }
-}
-
-function DrawRedirectedLinks(docid, kill) {
 // show the links from docid to others
 // used when patients aredirected
+function DrawRedirectedLinks(docid, kill) {
 
   var doctor = Doc_list[docid]; //recalls a global var
     // console.log(doctor.links.length);
