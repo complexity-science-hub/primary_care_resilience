@@ -304,3 +304,22 @@ function DrawRedirectedLinks(docid, linked_docs, kill) {
 
     }
 }
+
+var lastpatcount = 0;
+function getTotalPats()
+{
+    var pats = 0;
+
+    for(var key in Doc_list)
+    {
+       pats += parseInt( Doc_list[key].activity );
+    }
+
+
+    if(lastpatcount == 0) lastpatcount = pats;
+
+    console.log(pats + " total pats");
+    if(lastpatcount > 0 && lastpatcount != pats) console.log(pats - lastpatcount + " more!");
+
+
+}

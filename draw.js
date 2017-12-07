@@ -189,8 +189,8 @@ function ShowLinks(docid)
                 doctor.links_displayed = true;
                 polyline.bindPopup(
                     "<p class=\"linkpopup\">"+
-                    "w="+ Math.floor(100*w).toString()+"%"+
-                    //"<br />to doc:"+link.docid_to.toString()+
+                    ""+ Math.floor(100*w).toString()+"% of " + doctor.activity + " Patients"+
+                    "<br />will be referred to this connection."+
                     "</p>"
                 );
 

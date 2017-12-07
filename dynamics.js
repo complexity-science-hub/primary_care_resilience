@@ -65,7 +65,10 @@ RemoveDoctor = function(docid) {
 
 // distributes nrpatients among the neigbors of docid
 // excluding those who already got some (not used at the moment)
+var log = true;
 DistributePatients = function(docid, nrpatients) {
+
+    if(log) console.log("distributing " + nrpatients + " Patients:");
 
     // DrawRedirectedLinks(docid);
     var links = [];
@@ -76,20 +79,26 @@ DistributePatients = function(docid, nrpatients) {
     var rest;
     var localrest = 0;
     var rejected = 0;
-    // var weightwatcher = 0;
+    var weightwatcher = 0;
+    if(log) console.log(l.length + " potential candidates.");
+
 
     for(var i in l)
     {
         var to  = l[i];
         var d = Math.round(nrpatients * w[i]);
-        // weightwatcher += w[i];
-        localrest += d;
+        weightwatcher += d;
 
         if(d>0) {
-            if($.inArray(to,excluded)<0)
+            // if($.inArray(to,excluded)<0)
             {
+                localrest += d;
                 links.push(to); //add this doc to the list of docs that received patients from the current doc
+                if(log) console.log(d + " Patients assigned.");
                 rest = AssignPatients(to, d);
+                if(log) console.log(rest + " will be again forwarded again.");
+                if(log) console.log("...............................");
+
 
                 if(rest>0)
                 {
@@ -107,8 +116,14 @@ DistributePatients = function(docid, nrpatients) {
         }
     }
 
+    if(log) console.log(l.length - links.length + " candidates were excluded.");
+    if(log) console.log((nrpatients - localrest) + " of " + nrpatients + " Patients were not referred and are lost.");
+    if(log) console.log("in: "+ nrpatients +" -- out: " + weightwatcher + " >>>> " +(weightwatcher-nrpatients) + " pat change due to weights...");
+    if(log) console.log("_____________________________________");
+
+
     //if(localrest > 0)
-        console.log("from " + nrpatients + ", " + localrest + " were forwarded. " + rejected + " were rejected & will be again forwarded. " + (nrpatients - localrest) + " were not forwarded @" + docid);
+    //     console.log("from " + nrpatients + ", " + localrest + " were forwarded. " + rejected + " were rejected & will be again forwarded. " + (nrpatients - localrest) + " were not forwarded @" + docid);
     // console.log("total weight = " + weightwatcher);
 
     return links;
@@ -135,7 +150,6 @@ AssignPatients = function(docid, nrpatients) {
     var rest = 0; // patients not assigned
     var assigned = 0; // patients assigned
 
-
     if(nrpatients < accepted_patients) {
         assigned = nrpatients;
     } else {
@@ -143,6 +157,10 @@ AssignPatients = function(docid, nrpatients) {
         assigned = accepted_patients;
     }
     doc.activity = assigned + parseInt(doc.activity);
+
+    if(log) console.log(accepted_patients + " Patients acceptable.");
+    if(log) console.log(assigned + " Patients accepted.");
+
     //printInfo("assigned "+assigned+" patients to doc "+docid+" rest "+rest+"<br>");
 
     // UpdateCircle(circle_list[docid]);
