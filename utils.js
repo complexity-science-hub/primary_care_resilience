@@ -88,6 +88,20 @@ function UpdateCircle(circle) {
     var radius = Activity2Radius(activity);
 
     circle.setStyle({fillColor: Acquired2Color(activity, initial)});
+
+    circle.bindPopup(
+        "<p class=\"circlepopup\">"+
+        // "      Id:"+doctor.docid.toString()+
+        // "<br />BZ:"+doctor.district_name.toString()+
+        "#Pats (initial): "+initial.toString()+"<br />"+
+        "#Pats (current): "+activity.toString()+"<br />"+
+        "increase = "+ parseInt( 100*(activity - initial)/initial) +"%<br />"+
+        "</p>",
+        {
+            offset: new L.Point(0,-20)
+        }
+    );
+
     growCircle(circle, radius, oldradius, 0.5, 0, true);
 }
 

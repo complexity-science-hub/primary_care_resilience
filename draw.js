@@ -86,9 +86,10 @@ function DrawDoctors() {
 
         circle.bindPopup(
             "<p class=\"circlepopup\">"+
-            "      Id:"+doctor.docid.toString()+
-            "<br />BZ:"+doctor.district_name.toString()+
-            //"<br />Activity:"+doctor.activity.toString()+
+            // "      Id:"+doctor.docid.toString()+
+            // "<br />BZ:"+doctor.district_name.toString()+
+            "#Pats (current): "+doctor.activity.toString()+
+            // "<br />#Pats (initial):"+doctor.initial_patients.toString()+
             "</p>",
             {
               offset: new L.Point(0,-20)
