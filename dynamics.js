@@ -76,11 +76,13 @@ DistributePatients = function(docid, nrpatients) {
     var rest;
     var localrest = 0;
     var rejected = 0;
+    // var weightwatcher = 0;
 
     for(var i in l)
     {
         var to  = l[i];
         var d = Math.round(nrpatients * w[i]);
+        // weightwatcher += w[i];
         localrest += d;
 
         if(d>0) {
@@ -107,6 +109,7 @@ DistributePatients = function(docid, nrpatients) {
 
     //if(localrest > 0)
         console.log("from " + nrpatients + ", " + localrest + " were forwarded. " + rejected + " were rejected & will be again forwarded. " + (nrpatients - localrest) + " were not forwarded @" + docid);
+    // console.log("total weight = " + weightwatcher);
 
     return links;
 };
@@ -126,7 +129,8 @@ AssignPatients = function(docid, nrpatients) {
     var fraction_accepted = 0.1; // 10% of accepted patients
 
     var doc = Doc_list[docid];
-    var accepted_patients = Math.floor(fraction_accepted * doc.activity); // assume he will accept 10% of current activity
+    var accepted_patients = Math.floor(fraction_accepted * doc.initial_patients); // assume he will accept 10% of initial activity
+    // var accepted_patients = Math.floor(fraction_accepted * doc.activity); // assume he will accept 10% of current activity
     // console.log(docid + " will accept " + accepted_patients + " of " + nrpatients + " patients");
     var rest = 0; // patients not assigned
     var assigned = 0; // patients assigned

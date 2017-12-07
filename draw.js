@@ -153,9 +153,10 @@ function DrawDoctors() {
     $("#info").append("<br>...done");
 }
 
-function ShowLinks(docid) {
 // show the links from docid to others
 // sets polyline pop-up
+function ShowLinks(docid)
+{
 
   var doctor = Doc_list[docid]; // recalls a global var
 
@@ -204,7 +205,8 @@ function ShowLinks(docid) {
                     color: 'red'
                   })
                   this.openPopup();
-                });                polyline.on('mouseout', function (e) {
+                });
+                polyline.on('mouseout', function (e) {
                   this.setStyle( {
                     color: 'blue'
                   })
