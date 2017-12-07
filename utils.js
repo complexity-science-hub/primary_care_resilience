@@ -32,8 +32,13 @@ function Activity2Color(a) {
   var hue = Math.floor(huemin+(huemax-huemin)*(1.0-a/activity_max));
 
   return "hsl("+hue+",100%,50%)";
-
 }
+
+var coleur = chroma.scale(['lightgreen', 'red']).mode("lab").domain([0,0.25]);
+
+
+
+
 
 function Acquired2Color(a, i) {
 
@@ -41,14 +46,21 @@ function Acquired2Color(a, i) {
 // a = current nr of patients
 // i = initial nr of patients
 
-  var huemax = 120;
-  var huemin = 0;
+  // var huemax = 120;
+  // var huemin = 0;
+
+  //encoded is the percentage in patient increase (1 = 100% increase)
   var f = (a-i)/i;
 
-  var hue = Math.floor(huemin+(huemax-huemin)*(1.0-f));
+  //scale caps out at 25% increase (see domain in definition)
+  var col = coleur(f);
 
-  return "hsl("+hue+",100%,50%)";
+  var colstring = col.hex()//"hsl("+col.hsl()[0]+", " + col.hsl()[1] + "%," + col.hsl()[2] + "%)";
 
+  return colstring;
+
+    // var hue = Math.floor(huemin+(huemax-huemin)*(1.0-f));
+    // return "hsl("+hue+",100%,50%)";
 } 
 
 function KillCircle(circle) {
@@ -195,6 +207,26 @@ function DrawRedirectedLinks(docid, linked_docs, kill) {
                 lineJoin: 'round'
             }
             ).addTo(mymap);
+
+          polyline.bindPopup(
+              "<p class=\"linkpopup\">"+
+              "w="+ Math.floor(100*w).toString()+"%"+
+              //"<br />to doc:"+link.docid_to.toString()+
+              "</p>"
+          );
+          polyline.on('mouseover', function (e) {
+
+              this.setStyle( {
+                  color: 'red'
+              });
+              this.openPopup();
+          });
+          polyline.on('mouseout', function (e) {
+          this.setStyle( {
+              color: 'blue'
+          });
+          this.closePopup();
+          });
 
         var p0 = new geo_point(lat_from, lng_from);
         var p1 = new geo_point(lat_to, lng_to);
