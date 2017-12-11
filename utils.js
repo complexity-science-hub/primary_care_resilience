@@ -71,7 +71,7 @@ function KillCircle(circle) {
       //+"</p>"
   );
 
-  console.log("removing doc #" + circle.doc_id);
+  if(log) console.log("removing doc #" + circle.doc_id);
   delete Doc_list[circle.doc_id];
   delete circle_list[circle.doc_id];
   mymap.removeLayer(circle);
@@ -138,7 +138,7 @@ function growCircle(circ, maxradius, curradius, increase, tstep, first, wave) {
             var links = [];
             links = DistributePatients(circ.doc_id, nrpats);
             wave++;
-            DrawRedirectedLinks(circ.doc_id, links, false, wave);
+            DrawRedirectedLinks(circ.doc_id, links, false, wave, nrpats);
         }
         //ending the wave
         else
@@ -194,7 +194,7 @@ function clearLinks() {
 
 // show the links from docid to others
 // used when patients aredirected
-function DrawRedirectedLinks(docid, linked_docs, kill, wave) {
+function DrawRedirectedLinks(docid, linked_docs, kill, wave, nrpats) {
 
         var doctor = Doc_list[docid]; //recalls a global var
         // console.log(linked_docs.length);
@@ -210,9 +210,11 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave) {
 
         if(w<1e-2) continue; // do not show links under 1%
 
-          console.log("wave = " + wave);
+        if(log) console.log("wave = " + wave);
 
-        var line_width = w*100; // transform into line width
+        var scaled_w = nrpats*w / line_norm;
+        var line_width = line_scale*scaled_w;//w*nrpats; // transform into line width
+
         var polyline = L.polyline([
             [lat_from, lng_from],
             [lat_from, lng_from]
@@ -227,7 +229,7 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave) {
 
           polyline.bindPopup(
               "<p class=\"linkpopup\">"+
-              "w="+ Math.floor(100*w).toString()+"%"+
+              "referring "+ Math.floor(nrpats*w).toString()+" Patients."+
               //"<br />to doc:"+link.docid_to.toString()+
               "</p>"
           );

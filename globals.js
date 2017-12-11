@@ -16,10 +16,19 @@ var excluded = [];
 // var excluded = [docid]; // do not include these doctors in the cascade
 var Remainder = {};
 
-
+//color for circles
 var coleur = chroma.scale(['lightgreen', 'red']).mode("lab").domain([0,0.25]);
 
-var catcol = chroma.scale(['#14a38f', '#fafa6e' ,'#fafa6e']).mode('lch').colors(4);
+//color for links (waves)
+var catcol = chroma.scale(['#14a38f', '#fafa6e' ,'#482777', '#ff9355']).mode('lch').colors(4);
+    // chroma.scale(['#14a38f', '#fafa6e' ,'#fafa6e']).mode('lch').colors(4);
+
+//turns logging on and off
+var log = false;
+
+//definitions for creating the edge thickness
+var line_norm = 5000; //normalize by 5000 patients
+var line_scale = 40;  //scale line thickness by
 
 
 // Doc_list[docid] is a global variable, actually an object with the following properties:

@@ -23,7 +23,7 @@ RemoveDoctor = function(docid) {
     var links = [];
     links = DistributePatients(docid, Doc_list[docid].activity);
 
-    DrawRedirectedLinks(docid, links, true, 0);
+    DrawRedirectedLinks(docid, links, true, 0, Doc_list[docid].activity);
 	// setTimeout(SpreadPatients, 1000, docid); 			// spread among his neighbors
 };
 
@@ -69,7 +69,6 @@ RemoveDoctor = function(docid) {
 
 // distributes nrpatients among the neigbors of docid
 // excluding those who already got some (not used at the moment)
-var log = true;
 DistributePatients = function(docid, nrpatients) {
 
     if(log) console.log("distributing " + nrpatients + " Patients:");
@@ -101,16 +100,6 @@ DistributePatients = function(docid, nrpatients) {
             if(log) console.log("to " + d);
 
         }
-
-        // weightwatcher += d;
-        //
-        // if(weightwatcher > nrpatients)
-        // {
-        //     var diff = weightwatcher - nrpatients;
-        //     d = d-diff;
-        //     if(log) console.log("corrected d to " + d);
-        // }
-
 
         if(d>0) {
             total += d;
