@@ -17,6 +17,11 @@ var excluded = [];
 var Remainder = {};
 
 
+var coleur = chroma.scale(['lightgreen', 'red']).mode("lab").domain([0,0.25]);
+
+var catcol = chroma.scale(['#14a38f', '#fafa6e' ,'#fafa6e']).mode('lch').colors(4);
+
+
 // Doc_list[docid] is a global variable, actually an object with the following properties:
 //
 // :links_displayed	(a boolean indicating whether doc's links are currently displayed on map)

@@ -14,12 +14,13 @@ RemoveDoctor = function(docid) {
     // we have to remove the instances of docid from all neighboring docs
     // and renormalise their weights accordingly
     removeLinkFromDocs(Doc_list[docid].links, docid);
+    // removeDoc(docid);
 
     // SpreadPatients(docid);
     var links = [];
     links = DistributePatients(docid, Doc_list[docid].activity);
 
-    DrawRedirectedLinks(docid, links, true);
+    DrawRedirectedLinks(docid, links, true, 0);
 	// setTimeout(SpreadPatients, 1000, docid); 			// spread among his neighbors
 };
 
@@ -77,27 +78,47 @@ DistributePatients = function(docid, nrpatients) {
     var l = doc.links;
     var w = doc.weights;
     var rest;
-    var localrest = 0;
+    var total = 0;
     var rejected = 0;
     var weightwatcher = 0;
-    if(log) console.log(l.length + " potential candidates.");
+    var patientsreferred = nrpatients;
+    // if(log) console.log(l.length + " potential candidates.");
 
 
     for(var i in l)
     {
         var to  = l[i];
         var d = Math.round(nrpatients * w[i]);
-        weightwatcher += d;
+        patientsreferred -= d;
+
+        if(patientsreferred < 0)
+        {
+            if(log) console.log("corrected d from " + d);
+            d = d + patientsreferred;
+            if(log) console.log("to " + d);
+
+        }
+
+        // weightwatcher += d;
+        //
+        // if(weightwatcher > nrpatients)
+        // {
+        //     var diff = weightwatcher - nrpatients;
+        //     d = d-diff;
+        //     if(log) console.log("corrected d to " + d);
+        // }
+
 
         if(d>0) {
+            total += d;
             // if($.inArray(to,excluded)<0)
             {
-                localrest += d;
+                // localrest += d;
                 links.push(to); //add this doc to the list of docs that received patients from the current doc
-                if(log) console.log(d + " Patients assigned.");
+                // if(log) console.log(d + " Patients assigned.");
                 rest = AssignPatients(to, d);
-                if(log) console.log(rest + " will be again forwarded again.");
-                if(log) console.log("...............................");
+                // if(log) console.log(rest + " will be again forwarded again.");
+                // if(log) console.log("...............................");
 
 
                 if(rest>0)
@@ -116,9 +137,11 @@ DistributePatients = function(docid, nrpatients) {
         }
     }
 
-    if(log) console.log(l.length - links.length + " candidates were excluded.");
-    if(log) console.log((nrpatients - localrest) + " of " + nrpatients + " Patients were not referred and are lost.");
-    if(log) console.log("in: "+ nrpatients +" -- out: " + weightwatcher + " >>>> " +(weightwatcher-nrpatients) + " pat change due to weights...");
+    // if(log) console.log(l.length - links.length + " candidates were excluded.");
+    // if(log) console.log((nrpatients - localrest) + " of " + nrpatients + " Patients were not referred and are lost.");
+    // if(log) console.log("in: "+ nrpatients +" -- out: " + weightwatcher + " >>>> " +(weightwatcher-nrpatients) + " pat change due to weights...");
+    if(log) console.log(nrpatients + " Patients  - " + total + " referred.");
+
     if(log) console.log("_____________________________________");
 
 
@@ -158,8 +181,8 @@ AssignPatients = function(docid, nrpatients) {
     }
     doc.activity = assigned + parseInt(doc.activity);
 
-    if(log) console.log(accepted_patients + " Patients acceptable.");
-    if(log) console.log(assigned + " Patients accepted.");
+    // if(log) console.log(accepted_patients + " Patients acceptable.");
+    // if(log) console.log(assigned + " Patients accepted.");
 
     //printInfo("assigned "+assigned+" patients to doc "+docid+" rest "+rest+"<br>");
 
@@ -177,17 +200,22 @@ function removeLinkFromDocs(links, docid)
     for(var i in links) {
         var id = links[i];
         var doc2 = Doc_list[id];
-        var l = doc2.links;
-        var ww = doc2.weights;
 
-        var index = $.inArray(docid,l); // might not work on IE8, who cares?
-        if(index >= 0)
+        if(doc2 != undefined)
         {
-            l.splice(index,1);
-            ww.splice(index,1);
-            var sum = 0;
-            for(var j in ww) { sum += ww[j]; }
-            for(var k in ww) { ww[k] /= sum; }
+            var l = doc2.links;
+            var ww = doc2.weights;
+
+            var index = $.inArray(docid,l); // might not work on IE8, who cares?
+            if(index >= 0)
+            {
+                l.splice(index,1);
+                ww.splice(index,1);
+                var sum = 0;
+                for(var j in ww) { sum += ww[j]; }
+                for(var k in ww) { ww[k] /= sum; }
+            }
         }
+
     }
 }

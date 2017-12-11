@@ -34,9 +34,6 @@ function Activity2Color(a) {
   return "hsl("+hue+",100%,50%)";
 }
 
-var coleur = chroma.scale(['lightgreen', 'red']).mode("lab").domain([0,0.25]);
-
-
 
 
 
@@ -73,13 +70,15 @@ function KillCircle(circle) {
       "Id="+circle.doc_id.toString()+"<br>"
       //+"</p>"
   );
-  
+
+  console.log("removing doc #" + circle.doc_id);
+  // delete Doc_list[circle.doc_id];
   delete circle_list[circle.doc_id];
   mymap.removeLayer(circle);
 
 }
 
-function UpdateCircle(circle) {
+function UpdateCircle(circle, wave) {
 
     var activity = Doc_list[circle.doc_id].activity;
     var initial = Doc_list[circle.doc_id].initial_patients;
@@ -102,10 +101,10 @@ function UpdateCircle(circle) {
         }
     );
 
-    growCircle(circle, radius, oldradius, 0.5, 0, true);
+    growCircle(circle, radius, oldradius, 0.5, 0, true, wave);
 }
 
-function growCircle(circ, maxradius, curradius, increase, tstep, first) {
+function growCircle(circ, maxradius, curradius, increase, tstep, first, wave) {
     var duration = 500;
 
     var span, numsteps;
@@ -122,7 +121,7 @@ function growCircle(circ, maxradius, curradius, increase, tstep, first) {
 
     if(curradius <= maxradius)
     {
-        setTimeout(growCircle, tstep, circ, maxradius, curradius, increase, tstep, first);
+        setTimeout(growCircle, tstep, circ, maxradius, curradius, increase, tstep, first, wave);
     }
     //after the circle finished growing (accepting patients), we distribute the remaining patients
     else
@@ -137,7 +136,8 @@ function growCircle(circ, maxradius, curradius, increase, tstep, first) {
 
             var links = [];
             links = DistributePatients(circ.doc_id, nrpats);
-            DrawRedirectedLinks(circ.doc_id, links, false);
+            wave++;
+            DrawRedirectedLinks(circ.doc_id, links, false, wave);
         }
         //ending the wave
         else
@@ -193,7 +193,7 @@ function clearLinks() {
 
 // show the links from docid to others
 // used when patients aredirected
-function DrawRedirectedLinks(docid, linked_docs, kill) {
+function DrawRedirectedLinks(docid, linked_docs, kill, wave) {
 
         var doctor = Doc_list[docid]; //recalls a global var
         // console.log(linked_docs.length);
@@ -209,15 +209,17 @@ function DrawRedirectedLinks(docid, linked_docs, kill) {
 
         if(w<1e-2) continue; // do not show links under 1%
 
+          console.log("wave = " + wave);
+
         var line_width = w*100; // transform into line width
         var polyline = L.polyline([
             [lat_from, lng_from],
             [lat_from, lng_from]
             ],
             {
-                color: "blue",
+                color: catcol[wave],
                 weight: line_width,
-                opacity: 0.5,
+                opacity: 0.8,
                 lineJoin: 'round'
             }
             ).addTo(mymap);
@@ -237,7 +239,7 @@ function DrawRedirectedLinks(docid, linked_docs, kill) {
           });
           polyline.on('mouseout', function (e) {
           this.setStyle( {
-              color: 'blue'
+              color: catcol[wave]
           });
           this.closePopup();
           });
@@ -247,7 +249,7 @@ function DrawRedirectedLinks(docid, linked_docs, kill) {
 
         var direction = {};
 
-        animateLink(polyline, p0, p1, 50, 0, direction, true, 500, doc2.docid, docid, kill);
+        animateLink(polyline, p0, p1, 50, 0, direction, true, 500, doc2.docid, docid, kill, wave);
         link_list.push(polyline);
 
         doctor.links_displayed = true;
@@ -259,7 +261,7 @@ function DrawRedirectedLinks(docid, linked_docs, kill) {
         this.lng = parseFloat(lng);
     }
 
-    function animateLink(pline, p_start, p_end, max_step, cur_step, stepdir, first, duration, targetdoc, sourcedoc, kill)
+    function animateLink(pline, p_start, p_end, max_step, cur_step, stepdir, first, duration, targetdoc, sourcedoc, kill, wave)
     {
         cur_step++;
 
@@ -291,7 +293,7 @@ function DrawRedirectedLinks(docid, linked_docs, kill) {
 
         //trigger next animation step
         if(cur_step <= max_step)
-            setTimeout(animateLink, duration, pline, p_start, p_end, max_step, cur_step, stepdir, first, duration, targetdoc, sourcedoc, kill);
+            setTimeout(animateLink, duration, pline, p_start, p_end, max_step, cur_step, stepdir, first, duration, targetdoc, sourcedoc, kill, wave);
         //initiate next spread if line reached its destination
         else
         {
@@ -299,7 +301,7 @@ function DrawRedirectedLinks(docid, linked_docs, kill) {
                 KillCircle(circle_list[sourcedoc]);
 
             if(circle_list[targetdoc] != undefined)
-                UpdateCircle(circle_list[targetdoc]);
+                UpdateCircle(circle_list[targetdoc], wave);
         }
 
     }
