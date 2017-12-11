@@ -72,7 +72,7 @@ function KillCircle(circle) {
   );
 
   console.log("removing doc #" + circle.doc_id);
-  // delete Doc_list[circle.doc_id];
+  delete Doc_list[circle.doc_id];
   delete circle_list[circle.doc_id];
   mymap.removeLayer(circle);
 
@@ -132,6 +132,7 @@ function growCircle(circ, maxradius, curradius, increase, tstep, first, wave) {
             var nrpats = Remainder[circ.doc_id];
             Remainder[circ.doc_id] = 0; //reset the remaining pats for this doc
 
+            //remove the links to this doc, so that we dont send patients back
             removeLinkFromDocs(Doc_list[circ.doc_id].links, circ.doc_id);
 
             var links = [];

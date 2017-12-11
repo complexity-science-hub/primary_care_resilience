@@ -13,8 +13,11 @@ RemoveDoctor = function(docid) {
 	clearLinks(); 					// remove all links from the map;
     // we have to remove the instances of docid from all neighboring docs
     // and renormalise their weights accordingly
-    removeLinkFromDocs(Doc_list[docid].links, docid);
-    // removeDoc(docid);
+    // removeLinkFromDocs(Doc_list[docid].links, docid);
+
+    //remove the respective doc from all other doc links
+    removeDocFromAllLinks(docid);
+
 
     // SpreadPatients(docid);
     var links = [];
@@ -218,4 +221,29 @@ function removeLinkFromDocs(links, docid)
         }
 
     }
+}
+
+//as opposed to the above function the doc is removed from all docs (not only immediately linked ones)
+function removeDocFromAllLinks(docid)
+{
+    var rcount = 0;
+
+    for(key in Doc_list)
+    {
+        var lnks = Doc_list[key].links;
+        var wgts = Doc_list[key].weights;
+
+        var index = $.inArray(docid,lnks); // might not work on IE8, who cares?
+        if(index >= 0)
+        {
+            rcount++;
+            lnks.splice(index,1);
+            wgts.splice(index,1);
+            var sum = 0;
+            for(var j in wgts) { sum += wgts[j]; }
+            for(var k in wgts) { wgts[k] /= sum; }
+        }
+    }
+
+    if(log) console.log("removed doc #" + docid + " from " + rcount + " links.")
 }
