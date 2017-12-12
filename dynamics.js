@@ -26,8 +26,7 @@ RemoveDoctor = function(docid) {
     //remove the respective doc from all other doc links
     removeDocFromAllLinks(docid);
 
-
-    // SpreadPatients(docid);
+    allreferred += Doc_list[docid].activity;
     var links = [];
     links = DistributePatients(docid, Doc_list[docid].activity);
 

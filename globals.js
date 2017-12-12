@@ -20,10 +20,10 @@ var fraction_accepted = 0.1; // 10% of accepted patients
 
 //color for circles
 var coleur = chroma.scale(['lightgreen', 'red']).mode("lab").domain([0,0.25]);
-
 //color for links (waves)
 var catcol = chroma.scale(['#14a38f', '#fafa6e' ,'#482777', '#ff9355']).mode('lch').colors(4);
     // chroma.scale(['#14a38f', '#fafa6e' ,'#fafa6e']).mode('lch').colors(4);
+var bezirkcolors = ['#eff3ff','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5','#084594'];
 
 //turns logging on and off
 var log = false;
@@ -33,7 +33,9 @@ var line_norm = 5000; //normalize by 5000 patients
 var line_scale = 40;  //scale line thickness by
 
 var simrunning = false;
-var functioncount = 0;
+var functioncount = 0; //indicates is > 0 when the simulation is running
+
+var allreferred = 0; //number of patients that were referred by removing doctors
 
 
 // Doc_list[docid] is a global variable, actually an object with the following properties:

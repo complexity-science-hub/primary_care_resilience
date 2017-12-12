@@ -14,12 +14,10 @@ function getRandomColor() {
     return color;
 }
 
-function getBezirkColor(bzrk) {
-
-    var cols = ['#eff3ff','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5','#084594'];
-
-    if(bzrk >= cols.length) bzrk = cols.length - 1;
-    return cols[bzrk];
+function getBezirkColor(bzrk)
+{
+    if(bzrk >= bezirkcolors.length) bzrk = bezirkcolors.length - 1;
+    return bezirkcolors[bzrk];
 }
 
 function Activity2Radius(a) {
@@ -85,7 +83,7 @@ function KillCircle(circle) {
         printInfo(
             //"<p>"+
             "Removed " + removedDocCount + " doctor(s)."+"<br>"+
-            lostPats + " of " + initialpats + " Patients <br>could not be referred."
+            lostPats + " of " + allreferred + " Patients <br>could not be referred."
             // "Id="+circle.doc_id.toString()+"<br>"
             //+"</p>"
         );
@@ -229,12 +227,19 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave, nrpats) {
         var lat_to = doc2.lat;
         var lng_to = doc2.lng;
 
-        if(w<1e-2) continue; // do not show links under 1%
+        if(w<0.01) continue; //do not show links under 1%
 
         if(log) console.log("wave = " + wave);
 
-        var scaled_w = nrpats*w / line_norm;
-        var line_width = line_scale*scaled_w;//w*nrpats; // transform into line width
+        var referredpats = Math.floor(nrpats*w);
+        if(referredpats < 1)
+        {
+            // console.warn("link without patients! this should not happen..");
+            continue;
+        }
+
+        var scaled_w = referredpats / line_norm;
+        var line_width = 2 + line_scale*scaled_w;//w*nrpats; // transform into line width
 
         var polyline = L.polyline([
             [lat_from, lng_from],
@@ -250,7 +255,7 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave, nrpats) {
 
           polyline.bindPopup(
               "<p class=\"linkpopup\">"+
-              "referring "+ Math.floor(nrpats*w).toString()+" Patients."+
+              "referring "+ referredpats +" Patients."+
               //"<br />to doc:"+link.docid_to.toString()+
               "</p>"
           );
