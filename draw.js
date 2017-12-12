@@ -23,6 +23,7 @@ function Initmap() {
     //mymap.setView(new L.LatLng(47.488, 12.881),7); // whole Austria
     mymap.setView(new L.LatLng(47.1666, 9.9095),10); // Vorarlberg
   	mymap.addLayer(osm);
+  	mymap.setMaxZoom(11);
 
     mymap.doubleClickZoom.disable();
 
