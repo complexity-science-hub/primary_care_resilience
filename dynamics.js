@@ -27,7 +27,7 @@ RemoveDoctor = function(docid) {
     removeDocFromAllLinks(docid);
 
     allreferred += Doc_list[docid].activity;
-    var links = [];
+    var links;
     links = DistributePatients(docid, Doc_list[docid].activity);
 
     DrawRedirectedLinks(docid, links, true, 0, Doc_list[docid].activity);

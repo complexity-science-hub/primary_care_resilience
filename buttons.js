@@ -1,7 +1,7 @@
 function Buttons() {
  	InfoBox();
     BasicInfos();
-    FlowControl();
+    // FlowControl();
 }   
 
 
@@ -135,3 +135,12 @@ function FlowControl() {
 ////////////////////////////////////////
 ////////////////////////////////////////
 ////////////////////////////////////////
+function logoCSH()
+{
+
+    $('.leaflet-top.leaflet-left')
+        .append('<img id="csh_logo" width="100px" src="./img/CSH_Logo.png"/></br>');
+
+    $('.leaflet-top.leaflet-left')
+        .append('<img id="csh_logo" width="100px" src="./img/LogoSM.png"/>');
+}

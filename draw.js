@@ -2,6 +2,7 @@ function Start() {
   Initmap();
   DrawBezirk();
   Buttons();
+  logoCSH();
   getTotalPats();
 }
 
@@ -15,7 +16,7 @@ function Initmap() {
     //var osmUrl='http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png';
   	//var osmUrl='http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png';
 
-  	var osmAttrib='VDPS@CSH | Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+  	var osmAttrib='VDPS, JCS @CSH | Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
   	var osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 13, attribution: osmAttrib});
 
   	// start the map in Austria
