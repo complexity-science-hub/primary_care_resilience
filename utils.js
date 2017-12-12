@@ -1,7 +1,8 @@
 // "small" Utility functions
 
 function printInfo(text) {
-  $('#info').prepend(text);
+  $('#info').empty();
+    $('#info').append(text);
 }
 
 function getRandomColor() {
@@ -11,6 +12,14 @@ function getRandomColor() {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+}
+
+function getBezirkColor(bzrk) {
+
+    var cols = ['#eff3ff','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5','#084594'];
+
+    if(bzrk >= cols.length) bzrk = cols.length - 1;
+    return cols[bzrk];
 }
 
 function Activity2Radius(a) {
@@ -52,7 +61,7 @@ function Acquired2Color(a, i) {
   //scale caps out at 25% increase (see domain in definition)
   var col = coleur(f);
 
-  var colstring = col.hex()//"hsl("+col.hsl()[0]+", " + col.hsl()[1] + "%," + col.hsl()[2] + "%)";
+  var colstring = col.hex();//"hsl("+col.hsl()[0]+", " + col.hsl()[1] + "%," + col.hsl()[2] + "%)";
 
   return colstring;
 
@@ -60,22 +69,30 @@ function Acquired2Color(a, i) {
     // return "hsl("+hue+",100%,50%)";
 } 
 
+var removedDocCount = 0;
 function KillCircle(circle) {
 
-  //clearLinks();
+    if(functioncount == 0)
+    {
+        if(log) console.log("removing doc #" + circle.doc_id);
+        delete Doc_list[circle.doc_id];
+        delete circle_list[circle.doc_id];
+        mymap.removeLayer(circle);
 
-  printInfo(
-      //"<p>"+
-      "Removing doctor with "+
-      "Id="+circle.doc_id.toString()+"<br>"
-      //+"</p>"
-  );
+        removedDocCount++;
+        getTotalPats();
 
-  if(log) console.log("removing doc #" + circle.doc_id);
-  delete Doc_list[circle.doc_id];
-  delete circle_list[circle.doc_id];
-  mymap.removeLayer(circle);
-
+        printInfo(
+            //"<p>"+
+            "Removed " + removedDocCount + " doctor(s)."+"<br>"+
+            lostPats + " of " + initialpats + " Patients <br>could not be referred."
+            // "Id="+circle.doc_id.toString()+"<br>"
+            //+"</p>"
+        );
+        functioncount--;
+    }
+    else if(functioncount == -1) return;
+    else setTimeout(KillCircle, 250, circle)
 }
 
 function UpdateCircle(circle, wave) {
@@ -101,10 +118,12 @@ function UpdateCircle(circle, wave) {
         }
     );
 
+    functioncount++;
     growCircle(circle, radius, oldradius, 0.5, 0, true, wave);
 }
 
 function growCircle(circ, maxradius, curradius, increase, tstep, first, wave) {
+    simrunning = true;
     var duration = 500;
 
     var span, numsteps;
@@ -144,7 +163,9 @@ function growCircle(circ, maxradius, curradius, increase, tstep, first, wave) {
         else
         {
             //console.log("doc #" + circ.doc_id + " absorbed all incoming patients");
+            simrunning = false;
         }
+        functioncount--;
     }
 }
 
@@ -252,6 +273,7 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave, nrpats) {
 
         var direction = {};
 
+        functioncount++;
         animateLink(polyline, p0, p1, 50, 0, direction, true, 500, doc2.docid, docid, kill, wave);
         link_list.push(polyline);
 
@@ -266,6 +288,8 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave, nrpats) {
 
     function animateLink(pline, p_start, p_end, max_step, cur_step, stepdir, first, duration, targetdoc, sourcedoc, kill, wave)
     {
+        simrunning = true;
+
         cur_step++;
 
         if(first)
@@ -305,12 +329,17 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave, nrpats) {
 
             if(circle_list[targetdoc] != undefined)
                 UpdateCircle(circle_list[targetdoc], wave);
+
+            simrunning = false;
+            functioncount--;
         }
 
     }
 }
 
+var lostPats = 0;
 var lastpatcount = 0;
+var initialpats = 0;
 function getTotalPats()
 {
     var pats = 0;
@@ -321,10 +350,16 @@ function getTotalPats()
     }
 
 
-    if(lastpatcount == 0) lastpatcount = pats;
+    if(lastpatcount == 0)
+    {
+        initialpats = pats;
+    }
 
-    console.log(pats + " total pats");
-    if(lastpatcount > 0 && lastpatcount != pats) console.log(pats - lastpatcount + " more!");
+    //console.log(pats + " total pats");
+    // if(lastpatcount > 0 && lastpatcount != pats) console.log(pats - lastpatcount + " more!");
 
+    lostPats = initialpats - pats;
+
+    lastpatcount = pats;
 
 }

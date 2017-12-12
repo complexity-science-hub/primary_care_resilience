@@ -2,6 +2,7 @@ function Start() {
   Initmap();
   DrawBezirk();
   Buttons();
+  getTotalPats();
 }
 
 function Initmap() {
@@ -26,6 +27,7 @@ function Initmap() {
 
 }
 
+var bzrkcolor = 1;
 function DrawBezirk() {
     var bc;
     $.getJSON("./data/vorarlberg.geojson", function(bc) {
@@ -37,7 +39,7 @@ function DrawBezirk() {
           color: 'white',
           dashArray: '3',
           fillOpacity: 0.5,
-          fillColor: getRandomColor()
+          fillColor: getBezirkColor(bzrkcolor++)
         };
       }
 

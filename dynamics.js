@@ -2,6 +2,14 @@
 // the global variable Doc_list[]
 
 RemoveDoctor = function(docid) {
+
+    if(functioncount > 0)
+    {
+        alert("Please wait until the simulation is finished.");
+        return;
+    }
+    functioncount = 0;
+    simrunning = true;
 // this function is triggered when a doctor is removed
 // i.e. when SHIFT-click or ALT-click is pressed
 // docid: the id of the doctor to be removed
@@ -115,9 +123,9 @@ DistributePatients = function(docid, nrpatients) {
 
                 if(rest>0)
                 {
-                    if(Remainder[to] != undefined)
-                        console.log("overwriting remainder of doc: " + to); //todo: should not happen when using excluded list
-                    else Remainder[to] = 0; //init
+                    if(Remainder[to] == undefined)
+                        Remainder[to] = 0; //init
+                    else if(log) console.log("overwriting remainder of doc: " + to); //todo: should not happen when using excluded list
 
                     //todo: once excluded list is used adding should not be necessary
                     Remainder[to] += rest;
@@ -155,8 +163,6 @@ AssignPatients = function(docid, nrpatients) {
     if(nrpatients==0) return;
 
     //DrawLinks(docid);
-
-    var fraction_accepted = 0.1; // 10% of accepted patients
 
     var doc = Doc_list[docid];
     var accepted_patients = Math.floor(fraction_accepted * doc.initial_patients); // assume he will accept 10% of initial activity

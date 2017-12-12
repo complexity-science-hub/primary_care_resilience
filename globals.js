@@ -15,6 +15,8 @@ var Doc_list = {};	// list of doctors indexed by doc_id
 var excluded = [];
 // var excluded = [docid]; // do not include these doctors in the cascade
 var Remainder = {};
+var fraction_accepted = 0.1; // 10% of accepted patients
+
 
 //color for circles
 var coleur = chroma.scale(['lightgreen', 'red']).mode("lab").domain([0,0.25]);
@@ -29,6 +31,9 @@ var log = false;
 //definitions for creating the edge thickness
 var line_norm = 5000; //normalize by 5000 patients
 var line_scale = 40;  //scale line thickness by
+
+var simrunning = false;
+var functioncount = 0;
 
 
 // Doc_list[docid] is a global variable, actually an object with the following properties:
