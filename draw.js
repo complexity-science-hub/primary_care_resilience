@@ -27,6 +27,14 @@ function Initmap() {
 
     mymap.doubleClickZoom.disable();
 
+    // how to disable all possible zoom mechanisms //
+    // mymap.dragging.disable();
+    // mymap.touchZoom.disable();
+    // mymap.scrollWheelZoom.disable();
+    // mymap.boxZoom.disable();
+    // mymap.keyboard.disable();
+    // if (mymap.tap) mymap.tap.disable();
+
 }
 
 var bzrkcolor = 1;
