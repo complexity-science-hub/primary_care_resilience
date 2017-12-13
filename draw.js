@@ -26,6 +26,7 @@ function Initmap() {
   	mymap.setMaxZoom(11);
 
     mymap.doubleClickZoom.disable();
+    mymap.boxZoom.disable();
 
 }
 
