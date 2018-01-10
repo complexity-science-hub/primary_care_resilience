@@ -26,7 +26,11 @@ function Activity2Radius(a) {
   var rmin = 500; 
   var rmax = 3000;
 
-  return rmin + (rmax-rmin)*a/activity_max;
+  var r = Math.sqrt(a*rmin);
+
+  return r ;
+
+  // return rmin + (rmax-rmin)*r/activity_max;
 
 } 
 
