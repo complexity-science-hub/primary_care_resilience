@@ -283,7 +283,7 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave, nrpats) {
         var direction = {};
 
         functioncount++;
-        animateLink(polyline, p0, p1, 50, 0, direction, true, 500, doc2.docid, docid, kill, wave);
+        animateLink(polyline, p0, p1, line_anim_steps, 0, direction, true, 500, doc2.docid, docid, kill, wave);
         link_list.push(polyline);
 
         doctor.links_displayed = true;
