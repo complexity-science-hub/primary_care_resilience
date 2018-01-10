@@ -19,7 +19,7 @@ var fraction_accepted = 0.1; // 10% of accepted patients
 
 
 //color for circles
-var coleur = chroma.scale(['lightgreen', 'red']).mode("lab").domain([0,0.25]);
+var coleur = chroma.scale(['lightgreen', 'red']).mode("lab").domain([0,fraction_accepted]);
 //color for links (waves)
 var catcol = chroma.scale(['#14a38f', '#fafa6e' ,'#482777', '#ff9355']).mode('lch').colors(4);
     // chroma.scale(['#14a38f', '#fafa6e' ,'#fafa6e']).mode('lch').colors(4);
