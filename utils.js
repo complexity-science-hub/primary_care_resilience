@@ -257,6 +257,21 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave, nrpats) {
             }
             ).addTo(mymap);
 
+          // var polyline = L.hotline([
+          //         [lat_from, lng_from, 200],
+          //         [lat_from, lng_from, 300]
+          //     ],
+          //     {
+          //         weight: line_width,
+          //         opacity: 0.8,
+          //         lineJoin: 'round',
+          //         min: 200,
+          //         max: 300,
+          //         palette: {0.0: catcol[wave], 1.0: catcol[wave+1]}
+          //     }
+          // ).addTo(mymap);
+
+
           polyline.bindPopup(
               "<p class=\"linkpopup\">"+
               "referring "+ referredpats +" Patients."+
@@ -326,9 +341,10 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave, nrpats) {
 
         //set updated line
         pline.setLatLngs(latlng);
+        // pline.bringToFront();
 
         //trigger next animation step
-        if(cur_step <= max_step)
+        if(cur_step < max_step)
             setTimeout(animateLink, duration, pline, p_start, p_end, max_step, cur_step, stepdir, first, duration, targetdoc, sourcedoc, kill, wave);
         //initiate next spread if line reached its destination
         else
@@ -345,6 +361,23 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave, nrpats) {
 
     }
 }
+
+var line_cols = generateLineGradient(line_anim_steps, line_anim_steps);
+
+function generateLineGradient(numsteps, stopsteps)
+{
+    var steps = [];
+    for(var i=0; i<stopsteps; i++)
+    {
+        var step = i / numsteps;
+        steps.push(step);
+    }
+
+    return steps;
+}
+
+
+
 
 var lostPats = 0;
 var lastpatcount = 0;
