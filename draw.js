@@ -26,6 +26,7 @@ function Initmap() {
   	mymap.setMaxZoom(11);
 
     mymap.doubleClickZoom.disable();
+    mymap.boxZoom.disable();
 
     // how to disable all possible zoom mechanisms //
     // mymap.dragging.disable();
@@ -112,7 +113,7 @@ function DrawDoctors() {
               this.setStyle( {
                 fillOpacity: 0.5,
                 color: 'gray'
-              })
+              });
               this.openPopup();
           });
         circle.on('mouseout', function (e) {
@@ -120,51 +121,61 @@ function DrawDoctors() {
               this.setStyle( {
                 fillOpacity: 0.8,
                 color: 'black'
-              })
+              });
               this.closePopup();
         });
-        circle.on('click', function (e) {
-              // var zoom = mymap.getZoom();
+        circle.on('mousedown', function (e) {
+
               var doctor = Doc_list[this.doc_id]; // recalls a global var
 
-              if(e.originalEvent.altKey || e.originalEvent.shiftKey) {
+              if(e.originalEvent.altKey || e.originalEvent.shiftKey)
+              {
                 RemoveDoctor(this.doc_id);
                 return;
-              } else {
-                $('#info').html(
-                  //"<p>"+
-                  "Id:"+this.doc_id.toString()+"<br>"+
-//                  "BZ:"+this.doc_district.toString()+"<br>"+
-                  "BZ:"+doctor.district_name.toString()+"<br>"+
-                  "Activity:"+doctor.activity.toString()+"<br>"
-                  //+"</p>"
-                );
               }
+              else
+              {
+                  $('#info').html(
+                      //"<p>"+
+                      "Id:" + this.doc_id.toString() + "<br>" +
+                      "BZ:" + doctor.district_name.toString() + "<br>" +
+                      "Activity:" + doctor.activity.toString() + "<br>"
+                      //+"</p>"
+                  );
+                  this.setStyle({
+                      fillOpacity: 0.5,
+                      color: 'white'
+                  });
 
-              clearLinks();
+                    if(functioncount < 1)
+                    {
+                        clearLinks();
 
-              if(doctor.links_displayed) { // if links are on already, set them off
-                doctor.links_displayed = false;
-                return;
+                        if (doctor.links_displayed) { // if links are on already, set them off
+                            doctor.links_displayed = false;
+                            return;
+                        }
+
+                        ShowLinks(this.doc_id);
+
+                        //if the mouse remains clicked for >1sec the doc is removed
+                        clearTimeout(Window.downTimer);
+                        Window.downTimer = setTimeout(function () {
+                            RemoveDoctor(doctor.docid);
+                        }, 1000);
+                    }
               }
-              this.setStyle( {
-                fillOpacity: 0.5,
-                color: 'white'
-              })
-
-              ShowLinks(this.doc_id);
-          });
-        circle.on('dblclick', function (e) {
-              // var zoom = mymap.getZoom();
-
-                RemoveDoctor(this.doc_id);
-
           });
       }
     });
 
     $("#info").append("<br>...done");
 }
+
+//used to clear the timer for the long-press doc removal
+$(window).mouseup(function(e) {
+    clearTimeout(Window.downTimer);
+});
 
 // show the links from docid to others
 // sets polyline pop-up

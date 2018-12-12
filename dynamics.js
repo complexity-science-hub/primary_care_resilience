@@ -105,7 +105,6 @@ DistributePatients = function(docid, nrpatients) {
             if(log) console.log("corrected d from " + d);
             d = d + patientsreferred;
             if(log) console.log("to " + d);
-
         }
 
         if(d>0) {
@@ -163,18 +162,25 @@ AssignPatients = function(docid, nrpatients) {
 
     //DrawLinks(docid);
 
+    //todo: check if there is already a 10% increase - currently always 10% are accepted
+
     var doc = Doc_list[docid];
     var accepted_patients = Math.floor(fraction_accepted * doc.initial_patients); // assume he will accept 10% of initial activity
+    var maxPatients = accepted_patients + doc.initial_patients;
+    var acceptable = maxPatients - doc.activity;
+    if(acceptable < 0) acceptable = 0;
+
     // var accepted_patients = Math.floor(fraction_accepted * doc.activity); // assume he will accept 10% of current activity
     // console.log(docid + " will accept " + accepted_patients + " of " + nrpatients + " patients");
     var rest = 0; // patients not assigned
     var assigned = 0; // patients assigned
 
-    if(nrpatients < accepted_patients) {
+    if(nrpatients < acceptable) {
         assigned = nrpatients;
-    } else {
-        rest = nrpatients - accepted_patients;
-        assigned = accepted_patients;
+    }
+    else {
+        rest = nrpatients - acceptable;
+        assigned = acceptable;
     }
     doc.activity = assigned + parseInt(doc.activity);
 

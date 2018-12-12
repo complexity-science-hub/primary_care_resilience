@@ -16,13 +16,17 @@ var excluded = [];
 // var excluded = [docid]; // do not include these doctors in the cascade
 var Remainder = {};
 var fraction_accepted = 0.1; // 10% of accepted patients
+var line_anim_steps = 15; //number of interpolation steps for growing the links
 
 
 //color for circles
-var coleur = chroma.scale(['lightgreen', 'red']).mode("lab").domain([0,0.25]);
+var coleur = chroma.scale(['lightgreen', 'red']).mode("lab").domain([0,fraction_accepted]);
 //color for links (waves)
-var catcol = chroma.scale(['#14a38f', '#fafa6e' ,'#482777', '#ff9355']).mode('lch').colors(4);
+// var catcol = chroma.scale(['#14a38f', '#fafa6e' ,'#482777', '#ff9355']).mode('lch').colors(4);
+// var catcol = chroma.scale(['#14a38f' ,'#ffffb3','#fb8072','#fdb462','#b3de69','#fccde5']).mode('lch').colors(9);
     // chroma.scale(['#14a38f', '#fafa6e' ,'#fafa6e']).mode('lch').colors(4);
+var catcol = chroma.scale(['yellow', 'blue', '#ff164a','#0f0' , 'pink' ]).mode('lch').colors(5);
+//chroma.scale(['#14a38f', '#fafa6e' , '#482777', '008ae5']).colors(7);
 var bezirkcolors = ['#eff3ff','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5','#084594'];
 
 //turns logging on and off
