@@ -2,13 +2,13 @@ function Buttons() {
  	InfoBox();
     BasicInfos();
     // FlowControl();
-}   
+}
 
 
 /////////////////////////////////////////////
 InfoBox = function() {
 	// here we create the info box at the upper right corner
-	// where information of the running processes will 
+	// where information of the running processes will
 	// be reported
 
     var info = L.control();
@@ -52,7 +52,7 @@ function BasicInfos() {
 	$('#basic_info').prepend(
 		'Click on doctors to display links to others.'+
 		'<br>Click again to hide links.'+
-		'<br>double click or SHIFT-click removes doctor.'+
+		'<br>click-and-hold or SHIFT-click removes doctor.'+
 		'<br><b>DOCTOR POSITION IS FIXED AT RANDOM</b>'
 		);
 
@@ -82,7 +82,7 @@ function BasicInfos() {
 }
 
 function FlowControl() {
-	// Creates navigation buttons at the bottom right 
+	// Creates navigation buttons at the bottom right
 	// and associates both animations and tasks
 
 	// var info = L.control({ position: 'bottomleft' });
@@ -118,7 +118,7 @@ function FlowControl() {
 	$('#reset_btn').click( function() {
 		location.reload(true);
 	});
-	
+
 	$('#play_btn img').click( function() {
 		var type = $(this).attr('alt');
 		//console.log(type);
