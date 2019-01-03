@@ -15,7 +15,7 @@ var Doc_list = {};	// list of doctors indexed by doc_id
 var excluded = [];
 // var excluded = [docid]; // do not include these doctors in the cascade
 var Remainder = {};
-var fraction_accepted = 0.1; // 10% of accepted patients
+var fraction_accepted = 0.15; // 15% of accepted patients
 var line_anim_steps = 15; //number of interpolation steps for growing the links
 
 
@@ -30,7 +30,7 @@ var catcol = chroma.scale(['yellow', 'blue', '#ff164a','#0f0' , 'pink' ]).mode('
 var bezirkcolors = ['#eff3ff','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5','#084594'];
 
 //turns logging on and off
-var log = false;
+var log = true;
 
 //definitions for creating the edge thickness
 var line_norm = 5000; //normalize by 5000 patients

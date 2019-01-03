@@ -3,6 +3,13 @@
 
 RemoveDoctor = function(docid) {
 
+    removedDocCount++;
+    
+    printInfo(true,
+        "- Removed " + removedDocCount + " doctor(s)."+"<br>"+
+        "- ..simulating"+"<br>"
+    );
+
     if(functioncount > 0)
     {
         alert("Please wait until the simulation is finished.");
@@ -123,13 +130,13 @@ DistributePatients = function(docid, nrpatients) {
                 {
                     if(Remainder[to] == undefined)
                         Remainder[to] = 0; //init
-                    else if(log) console.log("overwriting remainder of doc: " + to); //todo: should not happen when using excluded list
+                    // else if(log) console.log("overwriting remainder of doc: " + to); //todo: should not happen when using excluded list
 
                     //todo: once excluded list is used adding should not be necessary
                     Remainder[to] += rest;
                     rejected += rest;
                 }
-                excluded.push(to);
+                // excluded.push(to);
             }
             // else console.log(to + " has already been visited - skipping.");
         }
@@ -161,9 +168,6 @@ AssignPatients = function(docid, nrpatients) {
     if(nrpatients==0) return;
 
     //DrawLinks(docid);
-
-    //todo: check if there is already a 10% increase - currently always 10% are accepted
-
     var doc = Doc_list[docid];
     var accepted_patients = Math.floor(fraction_accepted * doc.initial_patients); // assume he will accept 10% of initial activity
     var maxPatients = accepted_patients + doc.initial_patients;

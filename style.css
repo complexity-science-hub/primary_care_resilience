@@ -7,10 +7,16 @@ html, body {
 
 #mapid {
                 position : relative;
-                width : 100.0%;
+                width : 80.0%;
                 height: 100.0%;
-                left: 0.0%;
-                top: 0.0%;
+                /*left: 0.0%;*/
+                /*top: 0.0%;*/
+    float: left;
+}
+
+.right_float {
+    padding: 4px 4px;
+    margin-left: 4px;
 }
 
 p.circlepopup {
@@ -31,7 +37,7 @@ p.linkpopup {
     background: rgba(167,167,167,0.6);
     box-shadow: 0 0 15px rgba(0,0,0,0.4);
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 20px;
 }
 /*
 .info h4 {

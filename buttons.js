@@ -20,7 +20,7 @@ InfoBox = function() {
         };
     info.addTo(mymap);
 
-    $("#info").append("Info box:<br>");
+    $("#info").append("Status:<br>");
 
 	$('#info').hover(function() {
 			$(this).css("background", "rgba(250,250,250,0.6)");
@@ -50,10 +50,10 @@ function BasicInfos() {
 	info.addTo(mymap);
 
 	$('#basic_info').prepend(
-		'Click on doctors to display links to others.'+
-		'<br>Click again to hide links.'+
-		'<br>double click or SHIFT-click removes doctor.'+
-		'<br><b>DOCTOR POSITION IS FIXED AT RANDOM</b>'
+		'Click on a doctor (circle) to display the patient sharing network.'+
+		'<br>Click again to hide the links.'+
+		'<br>Long-click or SHIFT-click to remove a doctor.'+
+		'<br><b>Doctor positions are randomized within a district.</b>'
 		);
 
 	$('#basic_info').hover(function() {

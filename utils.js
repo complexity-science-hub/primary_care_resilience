@@ -1,7 +1,7 @@
 // "small" Utility functions
 
-function printInfo(text) {
-  $('#info').empty();
+function printInfo(clear, text) {
+  if(clear) $('#info').empty();
     $('#info').append(text);
 }
 
@@ -81,13 +81,13 @@ function KillCircle(circle) {
         delete circle_list[circle.doc_id];
         mymap.removeLayer(circle);
 
-        removedDocCount++;
+
         getTotalPats();
 
-        printInfo(
+        printInfo(false,
             //"<p>"+
-            "Removed " + removedDocCount + " doctor(s)."+"<br>"+
-            lostPats + " of " + allreferred + " Patients <br>could not be referred."
+            // "- Removed " + removedDocCount + " doctor(s)."+"<br>"+
+            "- " + lostPats + " of " + initialpats + " Patients <br>could not be referred."
             // "Id="+circle.doc_id.toString()+"<br>"
             //+"</p>"
         );
@@ -111,9 +111,9 @@ function UpdateCircle(circle, wave) {
         "<p class=\"circlepopup\">"+
         // "      Id:"+doctor.docid.toString()+
         // "<br />BZ:"+doctor.district_name.toString()+
-        "#Pats (initial): "+initial.toString()+"<br />"+
-        "#Pats (current): "+activity.toString()+"<br />"+
-        "increase = "+ parseInt( 100*(activity - initial)/initial) +"%<br />"+
+        "Num. of Patients (initial): "+initial.toString()+"<br />"+
+        "Num. of Patients (current): "+activity.toString()+"<br />"+
+        "Increase: "+ parseInt( 100*(activity - initial)/initial) +"%<br />"+
         "</p>",
         {
             offset: new L.Point(0,-20)
@@ -403,5 +403,6 @@ function getTotalPats()
     lostPats = initialpats - pats;
 
     lastpatcount = pats;
+    console.log("initial pats: " + initialpats)
 
 }

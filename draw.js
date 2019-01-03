@@ -66,7 +66,7 @@ function DrawBezirk() {
 
 function DrawDoctors() {
 
-    $("#info").append("Loading Doc info...");
+    $("#info").append("- Loading Doc info...");
 
     var docs;
 
@@ -101,7 +101,7 @@ function DrawDoctors() {
             "<p class=\"circlepopup\">"+
             // "      Id:"+doctor.docid.toString()+
             // "<br />BZ:"+doctor.district_name.toString()+
-            "#Pats (current): "+doctor.activity.toString()+
+            "Num. of Patients (current): "+doctor.activity.toString()+
             // "<br />#Pats (initial):"+doctor.initial_patients.toString()+
             "</p>",
             {
@@ -137,9 +137,9 @@ function DrawDoctors() {
               {
                   $('#info').html(
                       //"<p>"+
-                      "Id:" + this.doc_id.toString() + "<br>" +
-                      "BZ:" + doctor.district_name.toString() + "<br>" +
-                      "Activity:" + doctor.activity.toString() + "<br>"
+                      // "Id: " + this.doc_id.toString() + "<br>" +
+                      "Bezirk: " + doctor.district_name.toString() + "<br>" +
+                      "Activity: " + doctor.activity.toString() + "<br>"
                       //+"</p>"
                   );
                   this.setStyle({
@@ -169,7 +169,7 @@ function DrawDoctors() {
       }
     });
 
-    $("#info").append("<br>...done");
+    $("#info").append("<br>- ...done");
 }
 
 //used to clear the timer for the long-press doc removal
@@ -213,7 +213,7 @@ function ShowLinks(docid)
                 polyline.bindPopup(
                     "<p class=\"linkpopup\">"+
                     ""+ Math.floor(100*w).toString()+"% of " + doctor.activity + " Patients"+
-                    "<br />will be referred to this connection."+
+                    "<br />will be referred to the linked PCP."+
                     "</p>"
                 );
 
