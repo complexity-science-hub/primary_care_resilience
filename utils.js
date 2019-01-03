@@ -273,23 +273,22 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave, nrpats) {
 
 
           polyline.bindPopup(
-              "<p class=\"linkpopup\">"+
-              "referring "+ referredpats +" Patients."+
-              //"<br />to doc:"+link.docid_to.toString()+
-              "</p>"
+              "referring "+ referredpats +" Patients.",
+              {className: 'my-popup'}
           );
-          polyline.on('mouseover', function (e) {
-
+          polyline.on('mouseover', function (e)
+          {
               this.setStyle( {
                   color: 'red'
               });
               this.openPopup();
           });
-          polyline.on('mouseout', function (e) {
-          this.setStyle( {
-              color: catcol[wave]
-          });
-          this.closePopup();
+          polyline.on('mouseout', function (e)
+          {
+              this.setStyle( {
+                  color: catcol[wave]
+              });
+              this.closePopup();
           });
 
         var p0 = new geo_point(lat_from, lng_from);
@@ -403,6 +402,6 @@ function getTotalPats()
     lostPats = initialpats - pats;
 
     lastpatcount = pats;
-    console.log("initial pats: " + initialpats)
+    if(log) console.log("initial pats: " + initialpats)
 
 }

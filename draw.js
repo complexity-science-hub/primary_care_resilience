@@ -98,26 +98,25 @@ function DrawDoctors() {
         circle.doc_id = doctor.docid;
 
         circle.bindPopup(
-            "<p class=\"circlepopup\">"+
-            // "      Id:"+doctor.docid.toString()+
             // "<br />BZ:"+doctor.district_name.toString()+
-            "Num. of Patients (current): "+doctor.activity.toString()+
+            "Num. of Patients (current): "+doctor.activity.toString(),
             // "<br />#Pats (initial):"+doctor.initial_patients.toString()+
-            "</p>",
+
             {
+                className: 'my-popup',
               offset: new L.Point(0,-20)
             }
         );
-        circle.on('mouseover', function (e) {
-
+        circle.on('mouseover', function (e)
+        {
               this.setStyle( {
                 fillOpacity: 0.5,
                 color: 'gray'
               });
               this.openPopup();
           });
-        circle.on('mouseout', function (e) {
-
+        circle.on('mouseout', function (e)
+        {
               this.setStyle( {
                 fillOpacity: 0.8,
                 color: 'black'
@@ -127,6 +126,11 @@ function DrawDoctors() {
         circle.on('mousedown', function (e) {
 
               var doctor = Doc_list[this.doc_id]; // recalls a global var
+
+            clearTimeout(Window.downTimer);
+            Window.downTimer = setTimeout(function () {
+                RemoveDoctor(doctor.docid);
+            }, 1000);
 
               if(e.originalEvent.altKey || e.originalEvent.shiftKey)
               {
@@ -159,10 +163,7 @@ function DrawDoctors() {
                         ShowLinks(this.doc_id);
 
                         //if the mouse remains clicked for >1sec the doc is removed
-                        clearTimeout(Window.downTimer);
-                        Window.downTimer = setTimeout(function () {
-                            RemoveDoctor(doctor.docid);
-                        }, 1000);
+
                     }
               }
           });
@@ -211,31 +212,29 @@ function ShowLinks(docid)
 
                 doctor.links_displayed = true;
                 polyline.bindPopup(
-                    "<p class=\"linkpopup\">"+
-                    ""+ Math.floor(100*w).toString()+"% of " + doctor.activity + " Patients"+
-                    "<br />will be referred to the linked PCP."+
-                    "</p>"
+                      Math.floor(100*w).toString()+"% of " + doctor.activity + " Patients"+
+                      "<br />will be referred to the linked PCP.",
+                    {className: 'my-popup'}
                 );
 
                 polyline.on('click', function (e) {
-
                   clearLinks();
-
                 });
 
-                polyline.on('mouseover', function (e) {
-
+                polyline.on('mouseover', function (e)
+                {
                   this.setStyle( {
                     color: 'red'
                   })
                   this.openPopup();
                 });
-                polyline.on('mouseout', function (e) {
+
+                polyline.on('mouseout', function (e)
+                {
                   this.setStyle( {
                     color: 'blue'
                   })
                   this.closePopup();
                 });
-                // console.log(doctor.links[j],doctor.weights[j]);
               }
 }
