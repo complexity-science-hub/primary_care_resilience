@@ -30,7 +30,7 @@ var catcol = chroma.scale(['yellow', 'blue', '#ff164a','#0f0' , 'pink' ]).mode('
 var bezirkcolors = ['#eff3ff','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5','#084594'];
 
 //turns logging on and off
-var log = true;
+var log = false;
 
 //definitions for creating the edge thickness
 var line_norm = 5000; //normalize by 5000 patients

@@ -4,7 +4,7 @@
 RemoveDoctor = function(docid) {
 
     removedDocCount++;
-    
+
     printInfo(true,
         "- Removed " + removedDocCount + " doctor(s)."+"<br>"+
         "- ..simulating"+"<br>"

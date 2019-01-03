@@ -15,8 +15,17 @@ html, body {
 }
 
 .right_float {
-    padding: 4px 4px;
-    margin-left: 4px;
+    /*width : 3.0%;*/
+}
+
+.right_float {
+    padding: 14px 14px 14px 14px;
+    /*margin: 14px;*/
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    /*padding-left: 20px;*/
+    position : relative;
+    left: 10px;
+
 }
 
 p.circlepopup {
