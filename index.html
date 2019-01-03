@@ -31,16 +31,16 @@
        <b>Visual Encoding:</b>
       <br>
       The model displays primary care providers (PCPs) as circles on randomized positions within each district.
-    The size of the circle indicates the current number of patients PCP.
+    The size of the circle indicates the current number of patients per PCP.
     The color of a circle indicates the current capacity of a PCP on a scale from green (average activity) to red (activity at actmaximum capacity).
-    Hovering the mouse pointer over a circle displays a pop-up window with information.
+    Hovering the mouse pointer over a circle displays a pop-up window with detailed information on patient numbers.
     When clicking a circle, links to the direct neighbors in the patient-sharing network of the corresponding PCP are displayed.
     To indicate the probability, based on which a patient would move from PCP i to PCP j, the thickness of each link is scaled by the respective probability value.
 
     <br>  <br>
     <b>Removing a PCP:</b>
     <br>
-    When long-clicking on a circle, the respective PCP is removed from the model and the patients are distributed across the patient-sharing network.
+    When long-clicking (or SHIFT-clicking) on a circle, the respective PCP is removed from the model and the patients are distributed across the patient-sharing network.
     The distribution is indicated through an animation, drawing links between the removed PCP and the PCPs that are adjacent in the patient-sharing network.
     In order to indicate the increased activity of PCP j, the corresponding circle will grow in size in respect to the number of accepted patients.
     The circle will also adapt its color to indicate how much closer the PCP is to maximum capacity due to the increased activity.

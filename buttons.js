@@ -53,7 +53,7 @@ function BasicInfos() {
 		'Click on a doctor (circle) to display the patient sharing network.'+
 		'<br>Click again to hide the links.'+
 		'<br>Long-click or SHIFT-click to remove a doctor.'+
-		'<br><b>Doctor positions are randomized within a district.</b>'
+		'<br><b>Doctor positions are randomized within each district.</b>'
 		);
 
 	$('#basic_info').hover(function() {
