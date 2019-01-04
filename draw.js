@@ -70,11 +70,19 @@ function DrawDoctors() {
 
     var docs;
 
-    $.getJSON("./data/docnet.json", function(docs) {
+    $.getJSON("./data/docnet.json", function(docs)
+    {
+        //averaging doc activity to quarterly - assuming the activity in the data describes a two year period
+        for(var i in docs)
+        {
+            var avg_activity = parseInt(docs[i].activity);
+            docs[i].activity = avg_activity / 8;
+        }
 
       var max = 0;
-      for(var i in docs) {
-        activity = parseInt(docs[i].activity);
+      for(var i in docs)
+      {
+        var activity = parseInt(docs[i].activity);
         if(max<activity) max = activity;
 
         docs[i].links_displayed = false; // useful to know when links are on
@@ -99,8 +107,8 @@ function DrawDoctors() {
 
         circle.bindPopup(
             // "<br />BZ:"+doctor.district_name.toString()+
-            "Num. of Patients (current): "+doctor.activity.toString(),
-            // "<br />#Pats (initial):"+doctor.initial_patients.toString()+
+            "Current activity: "+doctor.activity.toString()+
+            "<br />patients per quarter",
 
             {
                 className: 'my-popup',
@@ -195,7 +203,8 @@ function ShowLinks(docid)
 
                 if(w<1e-2) continue; // do not show links under 1%
 
-                var line_width = w*100; // transform into line width
+                var line_width = 2 + w*60; // transform into line width
+
                 var polyline = L.polyline([
                     [lat_from, lng_from],
                     [lat_to, lng_to]
@@ -212,7 +221,7 @@ function ShowLinks(docid)
 
                 doctor.links_displayed = true;
                 polyline.bindPopup(
-                      Math.floor(100*w).toString()+"% of " + doctor.activity + " Patients"+
+                      Math.floor(100*w).toString()+"% of the activity"+
                       "<br />will be referred to the linked PCP.",
                     {className: 'my-popup'}
                 );

@@ -33,8 +33,8 @@ var bezirkcolors = ['#eff3ff','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5',
 var log = false;
 
 //definitions for creating the edge thickness
-var line_norm = 5000; //normalize by 5000 patients
-var line_scale = 40;  //scale line thickness by
+var line_norm = 1500; //normalize by 5000 patients
+var line_scale = 60;  //scale line thickness by
 
 var simrunning = false;
 var functioncount = 0; //indicates is > 0 when the simulation is running

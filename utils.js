@@ -23,12 +23,12 @@ function getBezirkColor(bzrk)
 function Activity2Radius(a) {
 // from activity a determines circle radius 
 
-  var rmin = 500; 
-  var rmax = 3000;
+  var rmin = 8*500;
+  var rmax = 8*3000;
 
   var r = Math.sqrt(a*rmin);
 
-  return r ;
+  return r;
 
   // return rmin + (rmax-rmin)*r/activity_max;
 
@@ -111,8 +111,8 @@ function UpdateCircle(circle, wave) {
         "<p class=\"circlepopup\">"+
         // "      Id:"+doctor.docid.toString()+
         // "<br />BZ:"+doctor.district_name.toString()+
-        "Num. of Patients (initial): "+initial.toString()+"<br />"+
-        "Num. of Patients (current): "+activity.toString()+"<br />"+
+        "Initial activity: "+initial.toString()+"<br />"+
+        "Current activity: "+activity.toString()+"<br />"+
         "Increase: "+ parseInt( 100*(activity - initial)/initial) +"%<br />"+
         "</p>",
         {
@@ -273,7 +273,7 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave, nrpats) {
 
 
           polyline.bindPopup(
-              "referring "+ referredpats +" Patients.",
+              "Referring activity of "+ referredpats +"<br> quarterly patients.",
               {className: 'my-popup'}
           );
           polyline.on('mouseover', function (e)
