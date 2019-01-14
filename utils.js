@@ -34,16 +34,16 @@ function Activity2Radius(a) {
 
 } 
 
-function Activity2Color(a) {
-// from activity a determines circle radius 
-
-  var huemax = 120;
-  var huemin = 0;
-
-  var hue = Math.floor(huemin+(huemax-huemin)*(1.0-a/activity_max));
-
-  return "hsl("+hue+",100%,50%)";
-}
+// function Activity2Color(a) {
+// // from activity a determines circle radius
+//
+//   var huemax = 120;
+//   var huemin = 0;
+//
+//   var hue = Math.floor(huemin+(huemax-huemin)*(1.0-a/activity_max));
+//
+//   return "hsl("+hue+",100%,50%)";
+// }
 
 
 
@@ -87,7 +87,7 @@ function KillCircle(circle) {
         printInfo(false,
             //"<p>"+
             // "- Removed " + removedDocCount + " doctor(s)."+"<br>"+
-            "- " + lostPats + " of " + initialpats + " Patients <br>could not be referred."
+            "- " + lostPats + " of " + initialpats + " patient requests <br>were not handled."
             // "Id="+circle.doc_id.toString()+"<br>"
             //+"</p>"
         );

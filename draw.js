@@ -3,7 +3,6 @@ function Start() {
   DrawBezirk();
   Buttons();
   logoCSH();
-  getTotalPats();
 }
 
 function Initmap() {
@@ -76,13 +75,13 @@ function DrawDoctors() {
         for(var i in docs)
         {
             var avg_activity = parseInt(docs[i].activity);
-            docs[i].activity = avg_activity / 8;
+            docs[i].activity = Math.floor(avg_activity / 8);
         }
 
       var max = 0;
       for(var i in docs)
       {
-        var activity = parseInt(docs[i].activity);
+        var activity = docs[i].activity;
         if(max<activity) max = activity;
 
         docs[i].links_displayed = false; // useful to know when links are on
@@ -176,6 +175,8 @@ function DrawDoctors() {
               }
           });
       }
+        getTotalPats();
+
     });
 
     $("#info").append("<br>- ...done");
