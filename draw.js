@@ -72,16 +72,16 @@ function DrawDoctors() {
     $.getJSON("./data/docnet.json", function(docs)
     {
         //averaging doc activity to quarterly - assuming the activity in the data describes a two year period
-        for(var i in docs)
-        {
-            var avg_activity = parseInt(docs[i].activity);
-            docs[i].activity = Math.floor(avg_activity / 8);
-        }
+        // for(var i in docs)
+        // {
+        //     var avg_activity = parseInt(docs[i].activity);
+        //     docs[i].activity = Math.floor(avg_activity / 8);
+        // }
 
       var max = 0;
       for(var i in docs)
       {
-        var activity = docs[i].activity;
+        var activity = parseInt(docs[i].activity);
         if(max<activity) max = activity;
 
         docs[i].links_displayed = false; // useful to know when links are on
@@ -106,7 +106,7 @@ function DrawDoctors() {
 
         circle.bindPopup(
             // "<br />BZ:"+doctor.district_name.toString()+
-            "Current activity: "+doctor.activity.toString()+
+            "Current activity: "+Math.floor(doctor.activity/8)+
             "<br />patients per quarter",
 
             {
@@ -150,7 +150,7 @@ function DrawDoctors() {
                       //"<p>"+
                       // "Id: " + this.doc_id.toString() + "<br>" +
                       "Bezirk: " + doctor.district_name.toString() + "<br>" +
-                      "Activity: " + doctor.activity.toString() + "<br>"
+                      "Activity: " + Math.floor(doctor.activity/8) + "<br>"
                       //+"</p>"
                   );
                   this.setStyle({
@@ -202,7 +202,7 @@ function ShowLinks(docid)
                 var lat_to = doc2.lat;
                 var lng_to = doc2.lng;
 
-                if(w<1e-2) continue; // do not show links under 1%
+                if(w<link_thresh) continue; // do not show links under 1%
 
                 var line_width = 2 + w*60; // transform into line width
 

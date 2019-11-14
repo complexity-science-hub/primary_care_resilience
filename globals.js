@@ -16,6 +16,8 @@ var excluded = [];
 // var excluded = [docid]; // do not include these doctors in the cascade
 var Remainder = {};
 var fraction_accepted = 0.15; // 15% of accepted patients
+var link_thresh = 0.05;
+
 var line_anim_steps = 15; //number of interpolation steps for growing the links
 
 
@@ -33,13 +35,14 @@ var bezirkcolors = ['#eff3ff','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5',
 var log = false;
 
 //definitions for creating the edge thickness
-var line_norm = 1500; //normalize by 5000 patients
-var line_scale = 60;  //scale line thickness by
+var line_norm = 5000;//1500; //normalize by 5000 patients
+var line_scale = 40;//60;  //scale line thickness by
 
 var simrunning = false;
 var functioncount = 0; //indicates is > 0 when the simulation is running
 
 var allreferred = 0; //number of patients that were referred by removing doctors
+
 
 
 // Doc_list[docid] is a global variable, actually an object with the following properties:

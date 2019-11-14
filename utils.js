@@ -23,8 +23,8 @@ function getBezirkColor(bzrk)
 function Activity2Radius(a) {
 // from activity a determines circle radius 
 
-  var rmin = 8*500;
-  var rmax = 8*3000;
+  var rmin = 500;
+  var rmax = 3000;
 
   var r = Math.sqrt(a*rmin);
 
@@ -87,7 +87,7 @@ function KillCircle(circle) {
         printInfo(false,
             //"<p>"+
             // "- Removed " + removedDocCount + " doctor(s)."+"<br>"+
-            "- " + lostPats + " of " + initialpats + " patient requests <br>were not handled."
+            "- " + Math.floor(lostPats/8) + " of " + Math.floor(initialpats/8)   + " patient requests <br>were not handled."
             // "Id="+circle.doc_id.toString()+"<br>"
             //+"</p>"
         );
@@ -111,8 +111,8 @@ function UpdateCircle(circle, wave) {
         "<p class=\"circlepopup\">"+
         // "      Id:"+doctor.docid.toString()+
         // "<br />BZ:"+doctor.district_name.toString()+
-        "Initial activity: "+initial.toString()+"<br />"+
-        "Current activity: "+activity.toString()+"<br />"+
+        "Initial activity: "+ Math.floor(initial/8) +"<br />"+
+        "Current activity: "+ Math.floor(activity/8) +"<br />"+
         "Increase: "+ parseInt( 100*(activity - initial)/initial) +"%<br />"+
         "</p>",
         {
@@ -231,7 +231,7 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave, nrpats) {
         var lat_to = doc2.lat;
         var lng_to = doc2.lng;
 
-        if(w<0.01) continue; //do not show links under 1%
+        if(w<link_thresh) continue; //do not show links under 1%
 
         if(log) console.log("wave = " + wave);
 
@@ -271,9 +271,11 @@ function DrawRedirectedLinks(docid, linked_docs, kill, wave, nrpats) {
           //     }
           // ).addTo(mymap);
 
+          var adjusted = Math.floor(referredpats/8);
+          if(adjusted < 1) adjusted = 1;
 
           polyline.bindPopup(
-              "Referring activity of "+ referredpats +"<br> quarterly patients.",
+              "Referring activity of "+ adjusted +"<br> quarterly patients.",
               {className: 'my-popup'}
           );
           polyline.on('mouseover', function (e)
