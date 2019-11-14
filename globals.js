@@ -16,7 +16,7 @@ var excluded = [];
 // var excluded = [docid]; // do not include these doctors in the cascade
 var Remainder = {};
 var fraction_accepted = 0.15; // 15% of accepted patients
-var link_thresh = 0.05;
+var link_thresh = 0.01;
 
 var line_anim_steps = 15; //number of interpolation steps for growing the links
 

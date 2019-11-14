@@ -15,7 +15,7 @@ function Initmap() {
     //var osmUrl='http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png';
   	//var osmUrl='http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png';
 
-  	var osmAttrib='VDPS, JCS @CSH | Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+  	var osmAttrib='<a href="http://openstreetmap.org">OpenStreetMap</a> vis by Vito D. P. Servedio, Johannes Sorger <a href="https://www.csh.ac.at/">@CSH Vienna</a>';
   	var osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 13, attribution: osmAttrib});
 
   	// start the map in Austria

@@ -3,12 +3,25 @@ html, body {
                 height: 100%;
                 margin: 0;
                 padding: 0;
+
+    font-family: ff-clan-web-pro, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 12px;
+    line-height: 1.833;
+    overflow: hidden;
+}
+
+
+h2 {
+    margin-bottom: 0;
+    margin-top: 0;
+    font-size: 1rem;
 }
 
 #mapid {
                 position : relative;
+                top: 0px;
                 width : 80.0%;
-                height: 100.0%;
+                height: 97.0%;
                 /*left: 0.0%;*/
                 /*top: 0.0%;*/
     float: left;
@@ -17,6 +30,16 @@ html, body {
 .right_float {
     /*width : 3.0%;*/
 }
+
+.cr_right {
+    font-size: 10px;
+    float: right;
+    margin-right: 5px;
+    margin-top: 1px;
+
+
+}
+
 
 .right_float {
     padding: 14px 14px 14px 14px;
@@ -114,4 +137,33 @@ p.linkpopup {
 .my-popup {
     font-size: 20px;
     pointer-events: none;
+}
+
+#credits {
+    bottom: 0;
+    left:0;
+
+    height: 10px%;
+    width: 100%;
+
+    background-color: aliceblue;
+    position: absolute;
+    text-align: center;
+
+}
+
+#infobutton {
+    position: relative;
+    margin-right: 10px;
+    margin-left: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    background-color: cornflowerblue;
+}
+
+
+#crcontent {
+    height: 70%;
+    margin:auto;
+
 }

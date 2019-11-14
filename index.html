@@ -27,7 +27,6 @@
   <!--<div class="paddingpane"></div>-->
 
   <div id="infos" class="right_float">
-    <br>
        <b>Visual Encoding:</b>
       <br>
       The model displays primary care providers (PCPs) as circles on randomized positions within each district.
@@ -48,17 +47,30 @@
     In order to visually distinguish each wave of patient referrals, the links of each wave are drawn in a distinct color.
   </div>
 
+  <div id="credits">
 
+      <div id="crcontent">
+          Donald Ruggiero Lo Sardo, Stefan Thurner, Johannes Sorger, Georg Duftschmid, Gottfried Endel, and Peter Klimek
+          <!--<a target="_blank" rel="noopener noreferrer" href="https://www.pnas.org/content/early/2019/11/05/1904826116">read the original publication to find out more!</a>-->
+
+          <button id="infobutton" type="button" target="_blank" rel="noopener noreferrer" onclick=window.open('https://www.pnas.org/content/early/2019/11/05/1904826116','_blank')>Click to learn more!</button>
+      </div>
+
+  </div>
 
   <script type="text/javascript">
 
 //////////////////////////////////////
 //////////////////////////////////////    
-    
+
     Start();
 
 //////////////////////////////////////
 //////////////////////////////////////
+var leafletattrib = document.getElementsByClassName( 'leaflet-control-attribution' )[0];
+leafletattrib.classList = ["cr_right"];
+
+document.getElementById("crcontent").appendChild(leafletattrib);
 
   </script>
 </body>

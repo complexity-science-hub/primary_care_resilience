@@ -81,56 +81,56 @@ function BasicInfos() {
   });
 }
 
-function FlowControl() {
-	// Creates navigation buttons at the bottom right 
-	// and associates both animations and tasks
-
-	// var info = L.control({ position: 'bottomleft' });
-	var flowcontrol = L.control();
-	flowcontrol.setPosition("bottomright");
-
-	flowcontrol.onAdd = function () {
-    	this._div = L.DomUtil.create('div', 'flow_control'); // create a div with a class
-    	this._div.id = "flow_control"; // and same id
-    	return this._div;
-	};
-
-	flowcontrol.addTo(mymap);
-
-	$('#flow_control').append("<table id='flow_tbl'></table>");
-	$('#flow_tbl').append("<tr>"+
-		"<td id='reset_btn'></td>"+
-		"<td id='play_btn'></td>"+
-		"<td id='step_btn'></td>"+
-		"</tr>"
-	);
-
-	$('#reset_btn').html("<img src='img/reset.png' alt='reset' width='42'>");
-	$('#play_btn' ).html("<img src='img/play.png'  alt='play'  width='42'>");
-	$('#step_btn' ).html("<img src='img/step.png'  alt='step'  width='42'>");
-
-	$('#reset_btn img,#play_btn img,#step_btn img').hover(function() {
-				$(this).attr("width", "52");
-		}, function() {
-				$(this).attr("width", "42");
-		});
-
-	$('#reset_btn').click( function() {
-		location.reload(true);
-	});
-	
-	$('#play_btn img').click( function() {
-		var type = $(this).attr('alt');
-		//console.log(type);
-		if(type=='play') {
-			$(this).attr("src", 'img/pause.png');
-			$(this).attr("alt", 'pause');
-		} else {
-			$(this).attr("src", 'img/play.png');
-			$(this).attr("alt", 'play');
-		}
-	});
-}
+// function FlowControl() {
+// 	// Creates navigation buttons at the bottom right
+// 	// and associates both animations and tasks
+//
+// 	// var info = L.control({ position: 'bottomleft' });
+// 	var flowcontrol = L.control();
+// 	flowcontrol.setPosition("bottomright");
+//
+// 	flowcontrol.onAdd = function () {
+//     	this._div = L.DomUtil.create('div', 'flow_control'); // create a div with a class
+//     	this._div.id = "flow_control"; // and same id
+//     	return this._div;
+// 	};
+//
+// 	flowcontrol.addTo(mymap);
+//
+// 	$('#flow_control').append("<table id='flow_tbl'></table>");
+// 	$('#flow_tbl').append("<tr>"+
+// 		"<td id='reset_btn'></td>"+
+// 		"<td id='play_btn'></td>"+
+// 		"<td id='step_btn'></td>"+
+// 		"</tr>"
+// 	);
+//
+// 	// $('#reset_btn').html("<img src='img/reset.png' alt='reset' width='42'>");
+// 	// $('#play_btn' ).html("<img src='img/play.png'  alt='play'  width='42'>");
+// 	// $('#step_btn' ).html("<img src='img/step.png'  alt='step'  width='42'>");
+//
+// 	$('#reset_btn img,#play_btn img,#step_btn img').hover(function() {
+// 				$(this).attr("width", "52");
+// 		}, function() {
+// 				$(this).attr("width", "42");
+// 		});
+//
+// 	$('#reset_btn').click( function() {
+// 		location.reload(true);
+// 	});
+//
+// 	$('#play_btn img').click( function() {
+// 		var type = $(this).attr('alt');
+// 		//console.log(type);
+// 		if(type=='play') {
+// 			$(this).attr("src", 'img/pause.png');
+// 			$(this).attr("alt", 'pause');
+// 		} else {
+// 			$(this).attr("src", 'img/play.png');
+// 			$(this).attr("alt", 'play');
+// 		}
+// 	});
+// }
 
 ////////////////////////////////////////
 ////////////////////////////////////////
@@ -139,7 +139,7 @@ function logoCSH()
 {
 
     $('.leaflet-top.leaflet-left')
-        .append('<img class="csh_logo" width="100px" src="./img/CSH_Logo.png"/></br>');
+        .append('<a target="_blank" rel="noopener noreferrer" href="https://www.csh.ac.at/"><img class="csh_logo" width="100px" src="./img/CSH_Logo.png"/></a></br>');
 
     $('.leaflet-top.leaflet-left')
         .append('<img class="csh_logo" width="100px" src="./img/LogoSM.png"/>');
