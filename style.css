@@ -6,7 +6,7 @@ html, body {
 
     font-family: ff-clan-web-pro, "Helvetica Neue", Helvetica, sans-serif;
     font-size: 12px;
-    line-height: 1.833;
+    /*line-height: 1.833;*/
     overflow: hidden;
 }
 
@@ -27,28 +27,25 @@ h2 {
     float: left;
 }
 
-.right_float {
-    /*width : 3.0%;*/
-}
-
 .cr_right {
     font-size: 10px;
     float: right;
     margin-right: 5px;
-    margin-top: 1px;
+    margin-top: 3px;
 
 
 }
 
 
 .right_float {
-    padding: 14px 14px 14px 14px;
+    padding: 14px 14px 0px 14px;
     /*margin: 14px;*/
     font: 14px/16px Arial, Helvetica, sans-serif;
     /*padding-left: 20px;*/
     position : relative;
-    left: 10px;
 
+    overflow: scroll;
+    height: calc(100% - 30px);
 }
 
 p.circlepopup {
@@ -58,19 +55,19 @@ p.linkpopup {
     font-size: 20px;
 }
 
-#info {
-/* new */
-    /* width: 200px;*/
+/*#info {
+!* new *!
+    !* width: 200px;*!
     line-height: 1;
     max-height: 300px;
     overflow: auto;
-/*******/
+!*******!
     padding: 4px 4px;
     background: rgba(167,167,167,0.6);
     box-shadow: 0 0 15px rgba(0,0,0,0.4);
     border-radius: 5px;
     font-size: 20px;
-}
+}*/
 /*
 .info h4 {
                 margin: 0 0 5px;
@@ -141,12 +138,13 @@ p.linkpopup {
 
 #credits {
     bottom: 0;
-    left:0;
-
-    height: 10px%;
+    left: 0;
+    min-height: 30px;
+    max-height: 30px;
     width: 100%;
-
-    background-color: aliceblue;
+    z-index: 1000;
+    background-color:
+            aliceblue;
     position: absolute;
     text-align: center;
 
@@ -158,12 +156,66 @@ p.linkpopup {
     margin-left: 20px;
     font-weight: bold;
     font-size: 14px;
-    background-color: cornflowerblue;
+    background-color: #236192;
+    color: white;
 }
 
 
 #crcontent {
     height: 70%;
     margin:auto;
+    padding-top: 3px;
+}
 
+.logos {
+    position: absolute;
+    bottom: 40px;
+    right: calc(20% + 10px);
+    z-index: 1000;
+
+    padding: 7px;
+    /*font: 14px/16px Arial, Helvetica, sans-serif;*/
+    font-size: 14px;
+    background: white;
+    background:
+            rgba(255, 255, 255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    text-align: justify;
+}
+
+.controls-info {
+    position: absolute;
+    bottom: 40px;
+    left: 10px;
+    z-index: 1000;
+
+    padding-left: 7px;
+    padding-right: 7px;
+    /*font: 14px/16px Arial, Helvetica, sans-serif;*/
+    font-size: 14px;
+    background: white;
+    background:
+            rgba(255, 255, 255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    text-align: justify;
+}
+
+#info {
+    position: absolute;
+    top: 10px;
+    right: calc(20% + 10px);
+    z-index: 1000;
+
+    padding: 7px;
+    /*font: 14px/16px Arial, Helvetica, sans-serif;*/
+    font-size: 14px;
+    background: white;
+    background:
+            rgba(255, 255, 255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    text-align: justify;
+    white-space: nowrap;
 }

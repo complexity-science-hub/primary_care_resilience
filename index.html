@@ -39,34 +39,45 @@
   <div id="mapid"></div>
   <!--<div class="paddingpane"></div>-->
 
-  <div id="infos" class="right_float">
-       <b>Visual Encoding:</b>
-      <br>
-      The model displays primary care providers (PCPs) as circles on randomized positions within each district.
-    The size of the circle indicates the current activity, i.e., the average number of patients per quarter, of a PCP.
-    The color of a circle indicates the current capacity of a PCP on a scale from green (average activity) to red (activity at at maximum capacity).
-    Hovering the mouse pointer over a circle displays a pop-up window with more detailed information on the activity.
-    When clicking a circle, links to the direct neighbors in the patient-sharing network of the corresponding PCP are displayed.
-    To indicate the probability, based on which a patient would move from PCP i to PCP j, the thickness of each link is scaled by the respective probability value.
-
-    <br>  <br>
-    <b>Removing a PCP:</b>
+  <div id="infos" class="right_float" style="text-align:justify;">
+    <h3>Patient-Sharing Network</h3>
+    <p>
+      The anonymized model displays primary care providers (PCPs) in the Austrian province Vorarlberg as circles in randomized positions within each district.
+    </p>
+    <h4>Visual Encoding:</h4>
+    <p>Hovering the mouse pointer over a circle displays a pop-up window with more detailed information on the PCP’s activity.</p>
+    <p>By clicking a circle, the links to the direct neighbors in the patient-sharing network are displayed.</p>
+    <p>The <b>SIZE OF A CIRCLE</b> indicates the current activity of a PCP, i.e., the average number of patients per quarter.</p>
+    <p>The <b>COLOR OF A CIRCLE</b> indicates the current capacity of a PCP on a scale from green (average activity) to red (activity at maximum capacity).</p>
+    <p>The <b>THICKNESS OF A LINK</b> shows the probability with which a patient would move from one PCP to the next one.</p>
+    <h4>Removing a doctor:</h4>
+    <p>Long-clicking or SHIFT-clicking a circle removes a doctor from the model. His/her patients are newly distributed across the patient-sharing network. The animation draws the links between removed and adjacent doctors.</p>
+    <p>The circles grow in size according to the increase in patients.</p>
+    <p>The color of the circle changes on a scale from green to red, indicating how much closer a doctor comes to his/her maximum capacity. If a PCP cannot accept incoming patients anymore, a new wave of distribution is triggered; to distinguish waves of patient referrals from one another, the links of each wave are drawn in a different color.</p>
     <br>
-    When long-clicking (or SHIFT-clicking) on a circle, the respective PCP is removed from the model and the doctor's activity is distributed across the patient-sharing network.
-    The distribution is indicated through an animation, drawing links between the removed PCP and the PCPs that are adjacent in the patient-sharing network.
-    In order to indicate the increased activity of PCP j, the corresponding circle will grow in size accordingly.
-    The circle will also adapt its color to indicate how much closer the PCP is to maximum capacity due to the increased activity.
-    If a PCP cannot accept all incoming patients, a new wave of distributions is triggered by drawing links from PCP j to its adjacent neighbors, resulting in a new cascade of links for each PCP that cannot accept all incoming patients.
-    In order to visually distinguish each wave of patient referrals, the links of each wave are drawn in a distinct color.
+  </div>
+
+  <div class="controls-info">
+    <p><b>Click</b> on a circle (doctor) to display the patient-sharing network.<br>Click again to hide the links.</p>
+    <p><b>Long-click</b> or <b>SHIFT-click</b> to remove a doctor.</p>
+    <p><b>Doctor positions are randomized within each district.</b></p>
+  </div>
+
+  <div class="logos">
+    <a target="_blank" rel="noopener noreferrer" href="https://www.csh.ac.at/"><img class="csh_logo" width="100px" src="./img/CSH_Logo.png"/></a>
+    <img class="csh_logo" width="100px" src="./img/LogoSM.png"/>
+  </div>
+
+  <div id="info">
   </div>
 
   <div id="credits">
 
       <div id="crcontent">
-          Donald Ruggiero Lo Sardo, Stefan Thurner, Johannes Sorger, Georg Duftschmid, Gottfried Endel, and Peter Klimek
+        © D. R. Lo Sardo, S. Thurner, J. Sorger, G. Duftschmid, G. Endel, and P. Klimek - PNAS (2019)
           <!--<a target="_blank" rel="noopener noreferrer" href="https://www.pnas.org/content/early/2019/11/05/1904826116">read the original publication to find out more!</a>-->
 
-          <button id="infobutton" type="button" target="_blank" rel="noopener noreferrer" onclick=window.open('https://www.pnas.org/content/early/2019/11/05/1904826116','_blank')>Click to learn more!</button>
+          <button id="infobutton" type="button" target="_blank" rel="noopener noreferrer" onclick=window.open('https://www.pnas.org/content/early/2019/11/05/1904826116','_blank')>Click to publication</button>
       </div>
 
   </div>
@@ -84,6 +95,8 @@ var leafletattrib = document.getElementsByClassName( 'leaflet-control-attributio
 leafletattrib.classList = ["cr_right"];
 
 document.getElementById("crcontent").appendChild(leafletattrib);
+
+$('#info').hide();
 
   </script>
 </body>

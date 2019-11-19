@@ -2,7 +2,7 @@ function Start() {
   Initmap();
   DrawBezirk();
   Buttons();
-  logoCSH();
+  //logoCSH();
 }
 
 function Initmap() {
@@ -65,7 +65,7 @@ function DrawBezirk() {
 
 function DrawDoctors() {
 
-    $("#info").append("- Loading Doc info...");
+    //$("#info").append("- Loading Doc info...");
 
     var docs;
 
@@ -146,7 +146,7 @@ function DrawDoctors() {
               }
               else
               {
-                  $('#info').html(
+                  printInfo(true,
                       //"<p>"+
                       // "Id: " + this.doc_id.toString() + "<br>" +
                       "Bezirk: " + doctor.district_name.toString() + "<br>" +
@@ -179,7 +179,7 @@ function DrawDoctors() {
 
     });
 
-    $("#info").append("<br>- ...done");
+    //$("#info").append("<br>- ...done");
 }
 
 //used to clear the timer for the long-press doc removal

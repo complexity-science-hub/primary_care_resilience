@@ -1,8 +1,27 @@
 // "small" Utility functions
 
 function printInfo(clear, text) {
+    $('#info').show();
+
+    var curWidth = $('#info').width();
+    var curHeight = $('#info').height();
+
   if(clear) $('#info').empty();
     $('#info').append(text);
+
+    $('#info').css('width', 'auto');
+    $('#info').css('height', 'auto');
+
+    var targetWidth = $('#info').width();
+    var targetHeight = $('#info').height();
+
+    $('#info').width(curWidth).height(curHeight).animate({width: targetWidth, height: targetHeight}, 500);
+}
+
+function replaceInfo(oldStr, newStr) {
+    var text = $('#info').html();
+    text = text.replace(oldStr, newStr);
+    $('#info').html(text);
 }
 
 function getRandomColor() {
@@ -84,10 +103,12 @@ function KillCircle(circle) {
 
         getTotalPats();
 
+        replaceInfo("...simulating", "<b>Finished</b>");
+
         printInfo(false,
             //"<p>"+
             // "- Removed " + removedDocCount + " doctor(s)."+"<br>"+
-            "- " + Math.floor(lostPats/8) + " of " + Math.floor(initialpats/8)   + " patient requests <br>were not handled."
+            "<br>• " + Math.floor(lostPats/8) + " of " + Math.floor(initialpats/8)   + " patient requests <br>were not handled."
             // "Id="+circle.doc_id.toString()+"<br>"
             //+"</p>"
         );

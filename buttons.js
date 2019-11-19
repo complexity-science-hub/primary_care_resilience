@@ -1,6 +1,6 @@
 function Buttons() {
- 	InfoBox();
-    BasicInfos();
+ 	//InfoBox();
+    //BasicInfos();
     // FlowControl();
 }   
 
